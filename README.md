@@ -66,7 +66,7 @@ More information about hooks can be found in the [Hooks](#Hooks) section.
 *(default values shown)*
 ```js
 {
-  enabled: true,    // {boolean} enable/disale logging
+  enabled: true,    // {boolean} enable/disable logging
   level: 'debug',   // {string} the logging level (one of: debug, info, warn, error)
   beforeHooks: []   // {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
   afterHooks: []    // {LoggerHook[]} hooks invoked after a statement is logged
