@@ -13,6 +13,7 @@
     "type": "git",
     "url": "https://github.com/dev-tavern/vue-logger-plugin.git"
   },
+  "homepage": "https://github.com/dev-tavern/vue-logger-plugin#readme",
   "scripts": {
     "build": "tsc && cp -R src/types ./dist/",
     "test": "jest --config jestconfig.json",
