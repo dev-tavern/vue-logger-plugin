@@ -15,6 +15,7 @@ Contents
     * [Write Your Own Hooks](#write-your-own-hooks)
 * [Usage](#usage)
 * [License](#license)
+* [Changelog](CHANGELOG.md)
 
 ## NPM Package Install
 
@@ -68,7 +69,7 @@ More information about hooks can be found in the [Hooks](#Hooks) section.
 {
   enabled: true,    // {boolean} enable/disable logging
   level: 'debug',   // {string} the logging level (one of: debug, info, warn, error)
-  beforeHooks: []   // {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
+  beforeHooks: [],  // {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
   afterHooks: []    // {LoggerHook[]} hooks invoked after a statement is logged
 }
 ```
@@ -130,6 +131,7 @@ export interface LogEvent {
 
 ##### Sample Custom Hook - Leveraging Axios to Send Logs to Server
 This is a basic example demonstrating how you could have the logger send log data to a server using an Axios client.
+
 **`logger/index.js`**
 ```js
 import VueLogger from 'vue-logger-plugin'
@@ -182,20 +184,30 @@ new Vue({
       name: 'test',
       value: 'this is a test object'
     }
+    // using $log
     this.$log.debug('Test Message', testObject)
     this.$log.info('Test Message', testObject)
     this.$log.warn('Test Message', testObject)
+    this.$log.error('Test Message', testObject)
+    this.$log.log('Test Message', testObject)
+    // using $logger
+    this.$logger.debug('Test Message', testObject)
+    this.$logger.info('Test Message', testObject)
+    this.$logger.warn('Test Message', testObject)
     this.$logger.error('Test Message', testObject)
     this.$logger.log('Test Message', testObject)
   }
 })
 ```
 
-As described in the Vue Plugin Install section above, options can be provided to the VueLogger constructor and/or to the Vue.use method for customizing the logging implementation.  As well, options can be applied at any time to the logger on the Vue instance via the ```apply``` method.  This allows for on-demand enabling/disabling of the logger and adjusting log levels as needed.
+As described in the Vue Plugin Install section above, options can be provided to the VueLogger constructor and/or to the Vue.use method for customizing the logging implementation.  As well, options can be applied at any time to the logger on the Vue instance via the ```apply``` method.  This allows for on-demand enabling/disabling of the logger and adjusting log levels as needed from within your components.
 
 ```js
-this.$log.apply({ level: 'info' })
-this.$log.apply({ enabled: false })
+this.$log.apply({ level: 'info' }) // applies log level
+```
+
+```js
+this.$log.apply({ enabled: false }) // disables logging
 ```
 
 ## License
