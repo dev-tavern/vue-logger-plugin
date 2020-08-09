@@ -1,12 +1,14 @@
 import './vue'
-import { VueLogger } from './logger'
 
-export default VueLogger
+// export {
+//   VueLogger,
+//   createLogger,
+//   useLogger,
+//   LoggerOptions,
+//   LoggerHook,
+//   LogEvent
+// } from './logger'
 
-export {
-  LoggerOptions,
-  LoggerHook,
-  LogEvent
-} from './logger'
+export * from './logger'
 
 export * from './hooks'

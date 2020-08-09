@@ -1,5 +1,7 @@
-import { install } from './install'
+import { App, inject } from 'vue'
 import { LoggerOptions, LoggerHook, LogEvent } from './types'
+
+const LoggerSymbol = Symbol('vue-logger-plugin')
 
 const levels: string[] = ['debug', 'info', 'warn', 'error', 'log']
 
@@ -8,10 +10,8 @@ const defaultOptions: LoggerOptions = {
   level: 'debug'
 }
 
-export default class VueLogger {
+export class VueLogger {
 
-  static install = install
-  install = install
   private _options: LoggerOptions
   private _consoleFunctions: string[]
 
@@ -95,8 +95,27 @@ export default class VueLogger {
     return this._options.level
   }
 
+  install (app: App) {
+    app.provide(LoggerSymbol, this)
+    app.config.globalProperties.$log = this
+    app.config.globalProperties.$logger = this
+  }
+
 }
 
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(VueLogger)
+export function createLogger (options: LoggerOptions = {}) {
+  return new VueLogger(options)
 }
+
+export function useLogger () {
+  const logger = inject(LoggerSymbol)
+  if (!logger) {
+    console.warn('vue-logger-plugin :: useLogger missing inject')
+  }
+  return logger
+}
+
+// TODO FIXME
+// if (typeof window !== 'undefined' && window.Vue) {
+//   window.Vue.use(VueLogger)
+// }

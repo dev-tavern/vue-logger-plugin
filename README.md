@@ -5,6 +5,10 @@
 [![NPM Version][npm-image]][npm-url]
 [![License][license-image]][license-url]
 
+*Note:*
+*Versions 2.x support Vue 3 and versions 1.x support Vue 2.*
+*For documentation related to Vue 2, view a 1.x tag*
+
 Contents
 =================
 * [NPM Package Install](#npm-package-install)
@@ -25,40 +29,49 @@ npm i vue-logger-plugin
 
 ## Vue Plugin Install
 
-The logging implementation can be installed a couple different ways, either by providing options or a constructed VueLogger instance to ```Vue.use```.  
+The logging implementation can be installed by creating a logger instance using ```createlogger``` and providing that logger instance to the Vue ```App.use``` method.  
 
 Here is the simplest usage:
 
 **`main.js`**
 ```js
-import VueLogger from 'vue-logger-plugin'
-Vue.use(VueLogger, { <options here> })
-// or simply Vue.use(VueLogger) to just use the default options
+import { createApp, h } from 'vue';
+import { createLogger } from 'vue-logger-plugin'
+import App from './App.vue'
+createApp({
+  render: () => h(App)
+})
+  .use((createLogger({}))
+  .mount('#app')
 ```
 
-For advanced usage (i.e. using conditional options and hooks), it is recommended to export the constructed logger implementation in a separate file and then import into your main file.
+Doing the above will install the logger with the basic default options.
+
+For advanced usage (i.e. using conditional options and hooks), it is recommended to export the constructed logger instance in a separate file and then import into your main file.
 
 **`logger/index.js`**
 ```js
-import VueLogger from 'vue-logger-plugin'
+import { createLogger } from 'vue-logger-plugin'
 
-// define options
-const options = {
+// create logger with options
+const logger = createLogger({
   enabled: true,
   level: 'debug',
   beforeHooks: [ ... ],
   afterHooks: [ ... ]
-}
+})
 
-// export logger with applied options
-export default new VueLogger(options)
+export default logger
 ```
 **`main.js`**
 ```js
+// ...
 import logger from './logger'
-Vue.use(logger)
-// note that you may also provide the options argument here as well
-// if provided, they would be merged with / override the options already applied
+createApp({
+  render: () => h(App)
+})
+  .use(logger)
+  .mount('#app')
 ```
 
 More information about hooks can be found in the [Hooks](#Hooks) section.
@@ -90,24 +103,24 @@ The following hooks are available in this package and can be used by simply impo
 **`StringifyObjectsHook`**
 Applies JSON.stringify on all objects provided as arguments to a logging method.
 ```js
-import { StringifyObjectsHook } from 'vue-logger-plugin'
-const options = {
-    // ... (other options)
-    beforeHooks: [
-        StringifyObjectsHook
-    ]
-}
+import { createLogger, StringifyObjectsHook } from 'vue-logger-plugin'
+const logger = createLogger({
+  // ... (other options)
+  beforeHooks: [
+    StringifyObjectsHook
+  ]
+})
 ```
 **`StringifyAndParseObjectsHook`**
 Applies JSON.stringify and JSON.parse on all objects provided as arguments to a logging method.
 ```js
-import { StringifyAndParseObjectsHook } from 'vue-logger-plugin'
-const options = {
-    // ... (other options)
-    beforeHooks: [
-        StringifyAndParseObjectsHook
-    ]
-}
+import { createLogger, StringifyAndParseObjectsHook } from 'vue-logger-plugin'
+const logger = createLogger({
+  // ... (other options)
+  beforeHooks: [
+    StringifyAndParseObjectsHook
+  ]
+})
 ```
 
 The above are best used as 'before hooks' as they may purposefully alter the log output.  This way you are sure you are seeing the value of an object at the moment you log it. Otherwise, many browsers provide a live view that constantly updates as values change.
@@ -134,7 +147,7 @@ This is a basic example demonstrating how you could have the logger send log dat
 
 **`logger/index.js`**
 ```js
-import VueLogger from 'vue-logger-plugin'
+import { createLogger, StringifyObjectsHook } from 'vue-logger-plugin'
 import axios from 'axios'
 
 const ServerLogHook = {
@@ -143,18 +156,21 @@ const ServerLogHook = {
   }
 }
 
-const options = {
+const logger = createLogger({
   // ... (other options)
+  beforeHooks: [
+    StringifyObjectsHook
+  ],
   afterHooks: [
     ServerLogHook
   ]
-}
+})
 
-export default new VueLogger(options)
+export default logger
 ```
 **`logger/index.ts`** (TypeScript example, same functionality as above)
 ```ts
-import VueLogger, { LoggerOptions, LoggerHook, LogEvent } from 'vue-logger-plugin'
+import { createLogger, StringifyObjectsHook, LoggerHook, LogEvent } from 'vue-logger-plugin'
 import axios from 'axios'
 
 const ServerLogHook: LoggerHook = {
@@ -165,50 +181,54 @@ const ServerLogHook: LoggerHook = {
 
 const options: LoggerOptions = {
   // ... (other options)
+  beforeHooks: [
+    StringifyObjectsHook
+  ],
   afterHooks: [
     ServerLogHook
   ]
 }
 
-export default new VueLogger(options)
+export default logger
 ```
 
 ## Usage
 
-Once installed, the logger is available within the Vue instance via both ```$log``` and ```$logger``` (both access the same logger instance and provide the same functionality).
+**Composition API**:  Import and use the ```useLogger``` method to inject the logger instance.
 
 ```js
-new Vue({
-  created: function() {
-    const testObject = {
-      name: 'test',
-      value: 'this is a test object'
+import { defineComponent } from 'vue'
+import { useLogger } from 'vue-logger-plugin'
+export default defineComponent({
+  name: 'MyComponent',
+  setup () {
+    const log = useLogger()
+    log.info('Setting up MyComponent...')
+    return {
+      log
     }
-    // using $log
-    this.$log.debug('Test Message', testObject)
-    this.$log.info('Test Message', testObject)
-    this.$log.warn('Test Message', testObject)
-    this.$log.error('Test Message', testObject)
-    this.$log.log('Test Message', testObject)
-    // using $logger
-    this.$logger.debug('Test Message', testObject)
-    this.$logger.info('Test Message', testObject)
-    this.$logger.warn('Test Message', testObject)
-    this.$logger.error('Test Message', testObject)
-    this.$logger.log('Test Message', testObject)
+  },
+  // example logger usage from outside of setup method
+  methods: {
+    test() {
+      const testObject = {
+        name: 'test',
+        value: 'this is a test object'
+      }
+      this.log.debug('Test Message', testObject)
+      this.log.info('Test Message', testObject)
+      this.log.warn('Test Message', testObject)
+      this.log.error('Test Message', testObject)
+      this.log.log('Test Message', testObject)
+      // change options
+      this.log.apply({ level: 'error' }) // applies new log level
+      this.log.warn('This is not logged now')
+    }
   }
 })
 ```
 
-As described in the Vue Plugin Install section above, options can be provided to the VueLogger constructor and/or to the Vue.use method for customizing the logging implementation.  As well, options can be applied at any time to the logger on the Vue instance via the ```apply``` method.  This allows for on-demand enabling/disabling of the logger and adjusting log levels as needed from within your components.
-
-```js
-this.$log.apply({ level: 'info' }) // applies log level
-```
-
-```js
-this.$log.apply({ enabled: false }) // disables logging
-```
+As described in the Vue Plugin Install section above, options can be provided to the ```createLogger``` function for customizing the logging implementation.  As well, the logger options can be applied at any time to the logger on the Vue instance via the ```apply``` function (as demonstrated in the above example code).  This allows for on-demand enabling/disabling of the logger and adjusting log levels as needed from within your components.  Any options available to createLogger are also available to the apply function.
 
 ## License
 

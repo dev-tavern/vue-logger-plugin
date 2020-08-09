@@ -1,5 +1,10 @@
 # vue-logger-plugin changelog
 
+## [2.0.0-beta.0]
+* Initial update to work with Vue 3
+* Provide createLogger & useLogger methods
+* Documentation updates
+
 ## [1.0.1] - 2020-07-22
 
 * Bump lodash from 4.17.15 to 4.17.19 (package-lock.json)
