@@ -114,8 +114,3 @@ export function useLogger () {
   }
   return logger
 }
-
-// TODO FIXME
-// if (typeof window !== 'undefined' && window.Vue) {
-//   window.Vue.use(VueLogger)
-// }
