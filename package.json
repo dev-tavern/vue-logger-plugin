@@ -1,6 +1,6 @@
 {
   "name": "vue-logger-plugin",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-beta.1",
   "description": "Flexible logging functionality for Vue.js 2 & 3",
   "author": "Josh Gamble",
   "license": "MIT",
