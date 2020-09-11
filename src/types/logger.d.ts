@@ -13,7 +13,7 @@ import { App } from 'vue'
  *  ]
  * })
  * export default logger
- * 
+ *
  * // main.ts
  * import logger from './plugins/logger'
  * createApp({
