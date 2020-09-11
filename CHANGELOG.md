@@ -1,5 +1,8 @@
 # vue-logger-plugin changelog
 
+## [2.0.0-beta.1]
+* Package updates
+
 ## [2.0.0-beta.0]
 * Initial update to work with Vue 3
 * Provide createLogger & useLogger methods
