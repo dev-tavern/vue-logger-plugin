@@ -65,7 +65,13 @@ export declare class VueLogger {
    * @param args
    */
   log (...args: any): void
+  /**
+   * Returns whether logging is enabled.
+   */
   enabled (): boolean
+  /**
+   * Returns the currently applied logging level (one of: debug, info, warn, error).
+   */
   level (): string
   install (app: App): void
 }
@@ -118,12 +124,26 @@ export interface LoggerOptions {
   afterHooks?: LoggerHook[]
 }
 
+/**
+ * Provides custom logic to be executed during a logging event.
+ * @interface
+ * @example
+ * const customHook: LoggerHook = {
+ *  run (event: LogEvent) {
+ *    // event.level is the log level invoked (e.g. debug, info, warn, error)
+ *    // event.argumentArray is the array of arguments which were passed to the logging method
+ *  }
+ * }
+ */
 export interface LoggerHook {
   run (event: LogEvent): void
   install? (options: LoggerOptions): void
   props?: { [key: string]: any }
 }
 
+/**
+ * Contains information for a log invocation (log level, array of arguments).
+ */
 export interface LogEvent {
   level: string
   argumentArray: any[]
