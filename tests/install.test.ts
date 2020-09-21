@@ -1,36 +1,35 @@
-import Vue from 'vue'
-import VueLogger from '../src'
+import { createApp } from 'vue'
+import { createLogger, VueLogger } from '../src'
 
-const VueE = Vue.extend()
-VueE.use(VueLogger)
+const logger = createLogger()
+const VueE = createApp({} as any).use(logger)
 
 describe('plugin installation', () => {
 
   it('logger is installed on Vue prototype as $log', () => {
-    expect(typeof VueE.prototype.$log).toBe('object')
-    expect(typeof VueE.prototype.$log.debug).toBe('function')
-    expect(typeof VueE.prototype.$log.info).toBe('function')
-    expect(typeof VueE.prototype.$log.warn).toBe('function')
-    expect(typeof VueE.prototype.$log.error).toBe('function')
-    expect(typeof VueE.prototype.$log.log).toBe('function')
-    expect(typeof VueE.prototype.$log.apply).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log).toBe('object')
+    expect(typeof VueE.config.globalProperties.$log.debug).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log.info).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log.warn).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log.error).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log.log).toBe('function')
+    expect(typeof VueE.config.globalProperties.$log.apply).toBe('function')
   })
 
   it('logger is installed on Vue prototype as $logger', () => {
-    expect(typeof VueE.prototype.$logger).toBe('object')
-    expect(typeof VueE.prototype.$logger.debug).toBe('function')
-    expect(typeof VueE.prototype.$logger.info).toBe('function')
-    expect(typeof VueE.prototype.$logger.warn).toBe('function')
-    expect(typeof VueE.prototype.$logger.error).toBe('function')
-    expect(typeof VueE.prototype.$logger.log).toBe('function')
-    expect(typeof VueE.prototype.$logger.apply).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger).toBe('object')
+    expect(typeof VueE.config.globalProperties.$logger.debug).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger.info).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger.warn).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger.error).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger.log).toBe('function')
+    expect(typeof VueE.config.globalProperties.$logger.apply).toBe('function')
   })
 
   it('instantiated logger is installed on Vue prototype', () => {
-    const VueE2 = Vue.extend()
-    VueE2.use(new VueLogger({ level: 'info' }))
-    expect(typeof VueE2.prototype.$log).toBe('object')
-    expect(VueE2.prototype.$log.level).toBe('info')
+    const VueE2 = createApp({} as any).use(new VueLogger({ level: 'info' }))
+    expect(typeof VueE2.config.globalProperties.$log).toBe('object')
+    expect(VueE2.config.globalProperties.$log.level).toBe('info')
   })
 
 })

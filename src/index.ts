@@ -1,6 +1,8 @@
-import VueLogger from './logger'
-
-export default VueLogger
+export {
+  VueLogger,
+  createLogger,
+  useLogger
+} from './logger'
 
 export {
   StringifyObjectsHook,

@@ -1,31 +1,26 @@
-import { PluginFunction } from 'vue'
+import { App } from 'vue'
 
 /**
  * @class
  * @example
- * ```ts
- * Vue.use(VueLogger, { ... })
- * ```
- * @example
- * ```ts
- * Vue.use(new VueLogger({
+ * // plugins/logger.ts
+ * import { createLogger, StringifyObjectsHook } from 'vue-logger-plugin'
+ * const logger = createLogger({
  *  enabled: true,
  *  level: 'debug',
  *  beforeHooks: [
- *    {
- *      run (event) => { event.argumentArray.unshift('ALTERED') }
- *    },
  *    StringifyObjectsHook
- *  ],
- *  afterHooks: [
- *    run (event) => {
- *      if (event.level === 'error') {
- *        axios.post('/log', { severity: event.level, data: event.argumentArray })
- *      }
- *    }
  *  ]
- * }))
- * ```
+ * })
+ * export default logger
+ *
+ * // main.ts
+ * import logger from './plugins/logger'
+ * createApp({
+ *  render: () => h(App)
+ * })
+ *  .use(logger)
+ *  .mount("#app");
  */
 export declare class VueLogger {
   constructor (options?: LoggerOptions)
@@ -70,11 +65,41 @@ export declare class VueLogger {
    * @param args
    */
   log (...args: any): void
+  /**
+   * Returns whether logging is enabled.
+   */
   enabled (): boolean
+  /**
+   * Returns the currently applied logging level (one of: debug, info, warn, error).
+   */
   level (): string
-  install: PluginFunction<LoggerOptions>
-  static install: PluginFunction<LoggerOptions>
+  install (app: App): void
 }
+
+/**
+ * Create a VueLogger instance that can be used on a Vue app.
+ * @param options - {@link LoggerOptions}
+ * @example
+ * const logger = createLogger({
+ *  enabled: true,
+ *  level: 'debug',
+ *  beforeHooks: [
+ *    StringifyObjectsHook
+ *  ],
+ *  afterHooks: [
+ *    run (event: LogEvent) {
+ *      // event.level is the log level invoked (e.g. debug, info, warn, error)
+ *      // event.argumentArray is the array of arguments which were passed to the logging method
+ *    }
+ *  ]
+ * })
+ */
+export function createLogger (options: LoggerOptions): VueLogger
+
+/**
+ * Inject an instance of VueLogger which is provided by the Vue app.
+ */
+export function useLogger (): VueLogger
 
 /**
  * Options for logging functionality.
@@ -99,12 +124,26 @@ export interface LoggerOptions {
   afterHooks?: LoggerHook[]
 }
 
+/**
+ * Provides custom logic to be executed during a logging event.
+ * @interface
+ * @example
+ * const customHook: LoggerHook = {
+ *  run (event: LogEvent) {
+ *    // event.level is the log level invoked (e.g. debug, info, warn, error)
+ *    // event.argumentArray is the array of arguments which were passed to the logging method
+ *  }
+ * }
+ */
 export interface LoggerHook {
   run (event: LogEvent): void
   install? (options: LoggerOptions): void
   props?: { [key: string]: any }
 }
 
+/**
+ * Contains information for a log invocation (log level, array of arguments).
+ */
 export interface LogEvent {
   level: string
   argumentArray: any[]
