@@ -35,13 +35,11 @@ Here is the simplest usage:
 
 **`main.js`**
 ```js
-import { createApp, h } from 'vue';
+import { createApp } from 'vue';
 import { createLogger } from 'vue-logger-plugin'
 import App from './App.vue'
-createApp({
-  render: () => h(App)
-})
-  .use((createLogger({}))
+createApp(App)
+  .use(createLogger({}))
   .mount('#app')
 ```
 
@@ -65,11 +63,10 @@ export default logger
 ```
 **`main.js`**
 ```js
-// ...
+import { createApp } from 'vue'
+import App from './App.vue'
 import logger from './logger'
-createApp({
-  render: () => h(App)
-})
+createApp(App)
   .use(logger)
   .mount('#app')
 ```
@@ -210,7 +207,7 @@ export default defineComponent({
   },
   // example logger usage from outside of setup method
   methods: {
-    test() {
+    test () {
       const testObject = {
         name: 'test',
         value: 'this is a test object'
