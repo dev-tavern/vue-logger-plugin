@@ -16,7 +16,7 @@
   "homepage": "https://github.com/dev-tavern/vue-logger-plugin#readme",
   "scripts": {
     "build": "tsc && cp -R src/types ./dist/",
-    "test": "jest --config jestconfig.json",
+    "test": "jest --coverage --config jestconfig.json",
     "lint": "tslint 'src/**/*.{ts,tsx}'",
     "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}' -t verbose",
     "prepare": "npm run build",
