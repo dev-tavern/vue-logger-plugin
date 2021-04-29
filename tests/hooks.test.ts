@@ -4,13 +4,22 @@ const testObject = { name: 'testObject' }
 
 describe('hooks: StringifyObjectsHook', () => {
 
-  it('stringifies', () => {
+  it('stringifies object', () => {
     const event = {
       level: 'info',
       argumentArray: [testObject]
     }
     StringifyObjectsHook.run(event)
     expect(event.argumentArray).toContain('{"name":"testObject"}')
+  })
+
+  it('skips non-object', () => {
+    const event = {
+      level: 'info',
+      argumentArray: ['test']
+    }
+    StringifyObjectsHook.run(event)
+    expect(event.argumentArray).toContain('test')
   })
 
 })
@@ -28,6 +37,15 @@ describe('hooks: StringifyAndParseObjectsHook', () => {
         name: 'testObject'
       })
     )
+  })
+
+  it('skips non-object', () => {
+    const event = {
+      level: 'info',
+      argumentArray: ['test']
+    }
+    StringifyAndParseObjectsHook.run(event)
+    expect(event.argumentArray[0]).toEqual('test')
   })
 
 })

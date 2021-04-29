@@ -119,3 +119,53 @@ describe('logging: hooks', () => {
   })
 
 })
+
+describe('logging: disabled', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('does not write to console', () => {
+    console.log = jest.fn()
+    const logger = createLogger({ enabled: false })
+    logger.log('test')
+    expect(console.log).not.toHaveBeenCalled()
+  })
+
+  it('does not invoke hooks', () => {
+    console.log = jest.fn()
+    const hook = {
+      run: jest.fn()
+    }
+    const logger = createLogger({ enabled: false, beforeHooks: [hook] })
+    logger.log('test')
+    expect(hook.run).not.toHaveBeenCalled()
+  })
+
+})
+
+describe('logging: console disabled', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('does not write to console', () => {
+    console.log = jest.fn()
+    const logger = createLogger({ consoleEnabled: false })
+    logger.log('test')
+    expect(console.log).not.toHaveBeenCalled()
+  })
+
+  it('does invoke hooks', () => {
+    console.log = jest.fn()
+    const hook = {
+      run: jest.fn()
+    }
+    const logger = createLogger({ consoleEnabled: false, beforeHooks: [hook] })
+    logger.log('test')
+    expect(hook.run).toHaveBeenCalled()
+  })
+
+})
