@@ -1,5 +1,9 @@
 # vue-logger-plugin changelog
 
+## [2.0.1] - TBD
+* Add `consoleEnabled` option for enabling/disabling console output (enabled by default)
+* Documentation updates
+
 ## [2.0.0] - 2020-09-20
 * Release for Vue 3
     * Provide createLogger & useLogger methods
@@ -26,6 +30,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[2.0.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/2.0.0...v2.0.1
 [2.0.0]: https://github.com/dev-tavern/vue-logger-plugin/releases/tag/v2.0.0
 [2.0.0-beta.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/2.0.0-beta.0...v2.0.0-beta.1
 [2.0.0-beta.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.1...2.0.0-beta.0

@@ -15,12 +15,12 @@ import { App } from 'vue'
  * export default logger
  *
  * // main.ts
+ * import { createApp } from 'vue'
+ * import App from './App.vue'
  * import logger from './plugins/logger'
- * createApp({
- *  render: () => h(App)
- * })
+ * createApp(App)
  *  .use(logger)
- *  .mount("#app");
+ *  .mount('#app')
  */
 export declare class VueLogger {
   constructor (options?: LoggerOptions)
@@ -33,35 +33,35 @@ export declare class VueLogger {
   /**
    * Perform debug level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug
+   * Only performed if LoggerOptions.level is one of: debug
    * @param args
    */
   debug (...args: any): void
   /**
    * Perform info level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info
+   * Only performed if LoggerOptions.level is one of: debug, info
    * @param args
    */
   info (...args: any): void
   /**
    * Perform warning level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info, warn
+   * Only performed if LoggerOptions.level is one of: debug, info, warn
    * @param args
    */
   warn (...args: any): void
   /**
    * Perform error level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info, warn, error
+   * Only performed if LoggerOptions.level is one of: debug, info, warn, error
    * @param args
    */
   error (...args: any): void
   /**
    * Perform generic (console.log) level logging.
    *
-   * Only performed if LoggerOptions.enabled is true.
+   * Performed if Logger.Options.level is one of: debug, info, warn, error, log
    * @param args
    */
   log (...args: any): void
@@ -70,7 +70,7 @@ export declare class VueLogger {
    */
   enabled (): boolean
   /**
-   * Returns the currently applied logging level (one of: debug, info, warn, error).
+   * Returns the currently applied logging level (one of: debug, info, warn, error, log).
    */
   level (): string
   install (app: App): void
@@ -110,6 +110,10 @@ export interface LoggerOptions {
    * @field enabled {boolean} whether logging functionality is enabled or not
    */
   enabled?: boolean
+  /**
+   * @field consoleEnabled {boolean} whether writing to console is enabled or not
+   */
+  consoleEnabled?: boolean
   /**
    * @field level {string} the logging level (one of: debug, info, warn, error)
    */

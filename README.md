@@ -74,15 +74,30 @@ createApp(App)
 More information about hooks can be found in the [Hooks](#Hooks) section.
 
 ### Options
-*(default values shown)*
-```js
-{
-  enabled: true,    // {boolean} enable/disable logging
-  level: 'debug',   // {string} the logging level (one of: debug, info, warn, error)
-  beforeHooks: [],  // {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
-  afterHooks: []    // {LoggerHook[]} hooks invoked after a statement is logged
-}
-```
+
+**Name**|**Type**|**Default**|**Description**
+:-----|:-----|:-----|:-----
+enabled | boolean | true | enable/disable logger
+consoleEnabled | boolean | true | enable/disable console output
+level | string | 'debug' | the logging level (one of: debug, info, warn, error, log)
+beforeHooks | LoggerHook[] | [] | hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
+afterHooks | LoggerHook[] | [] | hooks invoked after a statement is logged
+
+**Levels**
+
+log <-- error <-- warn <-- info <-- debug
+
+_(from left to right: least inclusive to most inclusive)_
+
+Specify an appropriate level to limit the amount of information logged.  For example, using the 'warn' level will log the 'log', 'error', and 'warn' events but not the 'info' or 'debug' events.
+
+**enabled vs consoleEnabled**
+
+Setting `enabled` to false will disable all logger functionality (console output + hook invocations).
+
+Setting `consoleEnabled` to false will disable just the console output but will still invoke the hooks.
+
+So, for example, if you want to prevent writing logs to the browser console but still invoke a hook (i.e. to send logs to a server) then you would set `enabled: true` and `consoleEnabled: false`.
 
 ### Hooks
 

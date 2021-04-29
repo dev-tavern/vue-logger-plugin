@@ -7,6 +7,7 @@ const levels: string[] = ['debug', 'info', 'warn', 'error', 'log']
 
 const defaultOptions: LoggerOptions = {
   enabled: true,
+  consoleEnabled: true,
   level: 'debug'
 }
 
@@ -51,10 +52,12 @@ export class VueLogger {
     if (this._options.enabled && levels.indexOf(level) >= levels.indexOf(this._options.level)) {
       this.invokeHooks(this._options.beforeHooks, level, args)
       const msgPrefix = `${level} | `
-      if (this._consoleFunctions.includes(level)) {
-        console[level](msgPrefix, ...args)
-      } else {
-        console.log(msgPrefix, ...args)
+      if (this._options.consoleEnabled) {
+        if (this._consoleFunctions.includes(level)) {
+          console[level](msgPrefix, ...args)
+        } else {
+          console.log(msgPrefix, ...args)
+        }
       }
       this.invokeHooks(this._options.afterHooks, level, args)
     }
