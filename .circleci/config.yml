@@ -21,7 +21,7 @@ jobs:
 workflows:
   ci:
     jobs:
-      - test
+      - test:
         filters:
           branches:
             only:
