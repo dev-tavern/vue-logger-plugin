@@ -3,6 +3,8 @@
 ## [2.0.1] - TBD
 * Add `consoleEnabled` option for enabling/disabling console output (enabled by default)
 * Documentation updates
+* Bump node-notifier from 8.0.0 to 8.0.1
+* Bump y18n from 4.0.0 to 4.0.1
 
 ## [2.0.0] - 2020-09-20
 * Release for Vue 3
