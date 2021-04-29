@@ -1,12 +1,16 @@
 import { createApp } from 'vue'
 import { createLogger } from '../src'
 
-const logger = createLogger()
-const VueE = createApp({} as any).use(logger)
+describe('logging: levels', () => {
 
-describe('logging', () => {
+  const logger = createLogger()
+  const VueE = createApp({} as any).use(logger)
 
   const testObject = { name: 'testObject' }
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
   it('debug logs to console.debug', () => {
     console.debug = jest.fn()
@@ -46,6 +50,72 @@ describe('logging', () => {
     VueE.config.globalProperties.$log.log('test', testObject)
     expect(console.log).toHaveBeenCalledWith('log | ', 'test')
     expect(console.log).toHaveBeenCalledWith('log | ', 'test', testObject)
+  })
+
+})
+
+describe('logging: unsupported', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('unsupported console function logs to console.log', () => {
+    console.warn = undefined
+    console.log = jest.fn()
+    const logger = createLogger()
+    logger.warn('test')
+    expect(console.log).toHaveBeenCalledWith('warn | ', 'test')
+  })
+
+})
+
+describe('logging: hooks', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('invokes before hooks', () => {
+    const hook = {
+      run: jest.fn()
+    }
+    const logger = createLogger({ beforeHooks: [hook] })
+    logger.log('test')
+    expect(hook.run).toHaveBeenCalledWith(
+      expect.objectContaining({
+        level: 'log',
+        argumentArray: ['test']
+      })
+    )
+  })
+
+  it('invokes after hooks', () => {
+    const hook = {
+      run: jest.fn()
+    }
+    const logger = createLogger({ afterHooks: [hook] })
+    logger.log('test')
+    expect(hook.run).toHaveBeenCalledWith(
+      expect.objectContaining({
+        level: 'log',
+        argumentArray: ['test']
+      })
+    )
+  })
+
+  it('handles hook run failure', () => {
+    console.warn = jest.fn()
+    const hook = {
+      run: jest.fn()
+    }
+    hook.run.mockImplementation(() => { throw Error('Test') })
+    const logger = createLogger({ beforeHooks: [hook] })
+    logger.log('test')
+    expect(console.warn).toHaveBeenCalledWith(
+      'LoggerHook run failure',
+      expect.anything()
+    )
   })
 
 })
