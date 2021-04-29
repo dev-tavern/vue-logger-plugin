@@ -24,7 +24,7 @@
     "preversion": "npm run lint",
     "version": "npm run lint-fix && git add -A src",
     "postversion": "git push && git push --tags",
-    "ci:test": "jest --coverage --ci --maxWorkers=2"
+    "ci:test": "jest --coverage --ci --maxWorkers=2 --config jestconfig.json"
   },
   "dependencies": {},
   "devDependencies": {
