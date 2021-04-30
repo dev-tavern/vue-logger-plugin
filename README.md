@@ -4,6 +4,10 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![License][license-image]][license-url]
+[![codecov][codecov-image]][codecov-url]
+[![circleci][circleci-image]][circleci-url]
+![minified][minified-image]
+![minzipped][minzipped-image]
 
 *Note:*
 *Versions 2.x support Vue 3 and versions 1.x support Vue 2.*
@@ -250,3 +254,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [npm-url]: https://npmjs.org/package/vue-logger-plugin
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: LICENSE
+[codecov-image]: https://codecov.io/gh/dev-tavern/vue-logger-plugin/branch/master/graph/badge.svg?token=WZDGBNBIW5
+[codecov-url]: https://codecov.io/gh/dev-tavern/vue-logger-plugin
+[circleci-image]: https://circleci.com/gh/dev-tavern/vue-logger-plugin.svg?style=svg
+[circleci-url]: https://circleci.com/gh/dev-tavern/vue-logger-plugin
+[minified-image]: https://badgen.net/bundlephobia/min/vue-logger-plugin
+[minzipped-image]: https://badgen.net/bundlephobia/minzip/vue-logger-plugin
