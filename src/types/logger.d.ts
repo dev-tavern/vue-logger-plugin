@@ -38,39 +38,45 @@ export declare class VueLogger {
   /**
    * Perform debug level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug
+   * Only performed if LoggerOptions.level is one of: debug
    * @param args
    */
   debug (...args: any): void
   /**
    * Perform info level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info
+   * Only performed if LoggerOptions.level is one of: debug, info
    * @param args
    */
   info (...args: any): void
   /**
    * Perform warning level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info, warn
+   * Only performed if LoggerOptions.level is one of: debug, info, warn
    * @param args
    */
   warn (...args: any): void
   /**
    * Perform error level logging.
    *
-   * Only performed if LoggerOptions.enabled is true and LoggerOptions.level is one of: debug, info, warn, error
+   * Only performed if LoggerOptions.level is one of: debug, info, warn, error
    * @param args
    */
   error (...args: any): void
   /**
    * Perform generic (console.log) level logging.
    *
-   * Only performed if LoggerOptions.enabled is true.
+   * Performed if Logger.Options.level is one of: debug, info, warn, error, log
    * @param args
    */
   log (...args: any): void
+  /**
+   * Returns whether logging is enabled.
+   */
   enabled (): boolean
+  /**
+   * Returns the currently applied logging level (one of: debug, info, warn, error, log).
+   */
   level (): string
   install: PluginFunction<LoggerOptions>
   static install: PluginFunction<LoggerOptions>
@@ -85,6 +91,10 @@ export interface LoggerOptions {
    * @field enabled {boolean} whether logging functionality is enabled or not
    */
   enabled?: boolean
+  /**
+   * @field consoleEnabled {boolean} whether writing to console is enabled or not
+   */
+   consoleEnabled?: boolean
   /**
    * @field level {string} the logging level (one of: debug, info, warn, error)
    */
