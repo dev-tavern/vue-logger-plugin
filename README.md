@@ -1,13 +1,13 @@
 # vue-logger-plugin
 
-> Flexible logging functionality for Vue.js with support for custom hook operations.
-
 [![NPM Version][npm-image]][npm-url]
 [![License][license-image]][license-url]
 [![codecov][codecov-image]][codecov-url]
 [![circleci][circleci-image]][circleci-url]
 ![minified][minified-image]
 ![minzipped][minzipped-image]
+
+> Flexible logging functionality for Vue.js with support for custom hook operations.
 
 *Note:*
 *Versions 2.x support Vue 3 and versions 1.x support Vue 2.*
