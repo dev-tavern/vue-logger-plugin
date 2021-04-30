@@ -27,4 +27,4 @@ workflows:
             only:
               - master
               - develop
-              - develop/v1
+              - develop-v1
