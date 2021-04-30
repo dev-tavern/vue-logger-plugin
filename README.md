@@ -24,7 +24,7 @@ Contents
 ## NPM Package Install
 
 ```sh
-npm i vue-logger-plugin
+npm i vue-logger-plugin@1.x-latest
 ```
 
 ## Vue Plugin Install
