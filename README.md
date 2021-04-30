@@ -1,9 +1,13 @@
 # vue-logger-plugin
 
-> Flexible logging functionality for Vue.js with support for custom hook operations.
-
 [![NPM Version][npm-image]][npm-url]
 [![License][license-image]][license-url]
+[![codecov][codecov-image]][codecov-url]
+[![circleci][circleci-image]][circleci-url]
+![minified][minified-image]
+![minzipped][minzipped-image]
+
+> Flexible logging functionality for Vue.js with support for custom hook operations.
 
 Contents
 =================
@@ -64,15 +68,30 @@ Vue.use(logger)
 More information about hooks can be found in the [Hooks](#Hooks) section.
 
 ### Options
-*(default values shown)*
-```js
-{
-  enabled: true,    // {boolean} enable/disable logging
-  level: 'debug',   // {string} the logging level (one of: debug, info, warn, error)
-  beforeHooks: [],  // {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
-  afterHooks: []    // {LoggerHook[]} hooks invoked after a statement is logged
-}
-```
+
+**Name**|**Type**|**Default**|**Description**
+:-----|:-----|:-----|:-----
+enabled | boolean | true | enable/disable logger
+consoleEnabled | boolean | true | enable/disable console output
+level | string | 'debug' | the logging level (one of: debug, info, warn, error, log)
+beforeHooks | LoggerHook[] | [] | hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
+afterHooks | LoggerHook[] | [] | hooks invoked after a statement is logged
+
+**Levels**
+
+log <-- error <-- warn <-- info <-- debug
+
+_(from left to right: least inclusive to most inclusive)_
+
+Specify an appropriate level to limit the amount of information logged.  For example, using the 'warn' level will log the 'log', 'error', and 'warn' events but not the 'info' or 'debug' events.
+
+**enabled vs consoleEnabled**
+
+Setting `enabled` to false will disable all logger functionality (console output + hook invocations).
+
+Setting `consoleEnabled` to false will disable just the console output but will still invoke the hooks.
+
+So, for example, if you want to prevent writing logs to the browser console but still invoke a hook (i.e. to send logs to a server) then you would set `enabled: true` and `consoleEnabled: false`.
 
 ### Hooks
 
@@ -92,10 +111,10 @@ Applies JSON.stringify on all objects provided as arguments to a logging method.
 ```js
 import { StringifyObjectsHook } from 'vue-logger-plugin'
 const options = {
-    // ... (other options)
-    beforeHooks: [
-        StringifyObjectsHook
-    ]
+  // ... (other options)
+  beforeHooks: [
+    StringifyObjectsHook
+  ]
 }
 ```
 **`StringifyAndParseObjectsHook`**
@@ -103,10 +122,10 @@ Applies JSON.stringify and JSON.parse on all objects provided as arguments to a 
 ```js
 import { StringifyAndParseObjectsHook } from 'vue-logger-plugin'
 const options = {
-    // ... (other options)
-    beforeHooks: [
-        StringifyAndParseObjectsHook
-    ]
+  // ... (other options)
+  beforeHooks: [
+    StringifyAndParseObjectsHook
+  ]
 }
 ```
 
@@ -218,3 +237,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [npm-url]: https://npmjs.org/package/vue-logger-plugin
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: LICENSE
+[codecov-image]: https://codecov.io/gh/dev-tavern/vue-logger-plugin/branch/develop-v1/graph/badge.svg?token=WZDGBNBIW5
+[codecov-url]: https://codecov.io/gh/dev-tavern/vue-logger-plugin
+[circleci-image]: https://circleci.com/gh/dev-tavern/vue-logger-plugin/tree/develop-v1.svg?style=svg
+[circleci-url]: https://circleci.com/gh/dev-tavern/vue-logger-plugin?branch=develop-v1
+[minified-image]: https://badgen.net/bundlephobia/min/vue-logger-plugin@v1
+[minzipped-image]: https://badgen.net/bundlephobia/minzip/vue-logger-plugin@v1
