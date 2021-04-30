@@ -233,7 +233,7 @@ this.$log.apply({ enabled: false }) // disables logging
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-[npm-image]: https://img.shields.io/npm/v/vue-logger-plugin.svg
+[npm-image]: https://img.shields.io/npm/v/vue-logger-plugin/1.x-latest.svg
 [npm-url]: https://npmjs.org/package/vue-logger-plugin
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: LICENSE
@@ -241,5 +241,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [codecov-url]: https://codecov.io/gh/dev-tavern/vue-logger-plugin
 [circleci-image]: https://circleci.com/gh/dev-tavern/vue-logger-plugin/tree/develop-v1.svg?style=svg
 [circleci-url]: https://circleci.com/gh/dev-tavern/vue-logger-plugin?branch=develop-v1
-[minified-image]: https://badgen.net/bundlephobia/min/vue-logger-plugin@v1
-[minzipped-image]: https://badgen.net/bundlephobia/minzip/vue-logger-plugin@v1
+[minified-image]: https://badgen.net/bundlephobia/min/vue-logger-plugin@1.x-latest
+[minzipped-image]: https://badgen.net/bundlephobia/minzip/vue-logger-plugin@1.x-latest
