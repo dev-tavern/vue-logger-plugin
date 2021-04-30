@@ -43,7 +43,7 @@ import { createApp } from 'vue';
 import { createLogger } from 'vue-logger-plugin'
 import App from './App.vue'
 createApp(App)
-  .use(createLogger({}))
+  .use(createLogger())
   .mount('#app')
 ```
 
