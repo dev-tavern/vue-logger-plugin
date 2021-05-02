@@ -53,7 +53,7 @@ export class VueLogger {
       this.invokeHooks(this._options.beforeHooks, level, args)
       const msgPrefix = `${level} | `
       if (this._options.consoleEnabled) {
-        if (this._consoleFunctions.includes(level)) {
+        if (this._consoleFunctions.indexOf(level) >= 0) {
           console[level](msgPrefix, ...args)
         } else {
           console.log(msgPrefix, ...args)
