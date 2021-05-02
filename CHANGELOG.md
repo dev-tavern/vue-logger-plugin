@@ -19,6 +19,6 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
-[1.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.1.0...v1.0.1
+[1.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/dev-tavern/vue-logger-plugin/releases/tag/v1.0.0
