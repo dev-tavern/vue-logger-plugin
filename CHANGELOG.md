@@ -1,8 +1,9 @@
 # vue-logger-plugin changelog
 
-## [1.1.0] - TBD
+## [1.1.0] - 2021-05-01
 * Add `consoleEnabled` option for enabling/disabling console output (enabled by default)
-* Documentation updates
+* Documentation update
+* IE compatibility update
 * Bump y18n from 4.0.0 to 4.0.1
 
 ## [1.0.1] - 2020-07-22
