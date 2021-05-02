@@ -1,6 +1,6 @@
 {
   "name": "vue-logger-plugin",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Flexible logging functionality for Vue.js 2 & 3",
   "author": "Josh Gamble",
   "license": "MIT",
@@ -14,16 +14,20 @@
     "url": "https://github.com/dev-tavern/vue-logger-plugin.git"
   },
   "homepage": "https://github.com/dev-tavern/vue-logger-plugin#readme",
+  "publishConfig": {
+    "tag": "next"
+  },
   "scripts": {
     "build": "tsc && cp -R src/types ./dist/",
-    "test": "jest --config jestconfig.json",
+    "test": "jest --coverage --config jestconfig.json",
     "lint": "tslint 'src/**/*.{ts,tsx}'",
     "lint-fix": "tslint --fix 'src/**/*.{ts,tsx}' -t verbose",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run lint-fix && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "ci:test": "jest --coverage --ci --maxWorkers=2 --config jestconfig.json"
   },
   "dependencies": {},
   "devDependencies": {
