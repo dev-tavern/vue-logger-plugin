@@ -1,8 +1,9 @@
 # vue-logger-plugin changelog
 
-## [2.1.0] - TBD
+## [2.1.0] - 2021-05-01
 * Add `consoleEnabled` option for enabling/disabling console output (enabled by default)
-* Documentation updates
+* Documentation update
+* IE compatibility update
 * Bump node-notifier from 8.0.0 to 8.0.1
 * Bump y18n from 4.0.0 to 4.0.1
 
@@ -32,7 +33,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
-[2.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/2.1.0...v2.0.1
+[2.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/2.0.1...v2.1.0
 [2.0.0]: https://github.com/dev-tavern/vue-logger-plugin/releases/tag/v2.0.0
 [2.0.0-beta.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/2.0.0-beta.0...v2.0.0-beta.1
 [2.0.0-beta.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.1...2.0.0-beta.0
