@@ -1,14 +1,12 @@
 
 /**
- * Extends interfaces in Vue.js
+ * Vue module augmentation
  */
-
-import { ComponentCustomOptions } from 'vue'
 import { VueLogger } from './index'
 
 declare module '@vue/runtime-core' {
-  interface ComponentCustomOptions {
-    log?: VueLogger
-    logger?: VueLogger
+  export interface ComponentCustomProperties {
+    $log: VueLogger
+    $logger: VueLogger
   }
 }
