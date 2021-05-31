@@ -1,6 +1,12 @@
 # vue-logger-plugin changelog
 
+## [1.1.1] - 2021-05-30
+
+* Bump lodash from 4.17.19 to 4.17.21
+* Bump ws from 7.3.1 to 7.4.6
+
 ## [1.1.0] - 2021-05-01
+
 * Add `consoleEnabled` option for enabling/disabling console output (enabled by default)
 * Documentation update
 * IE compatibility update
@@ -19,6 +25,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[1.1.1]:  https://github.com/dev-tavern/vue-logger-plugin/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/dev-tavern/vue-logger-plugin/releases/tag/v1.0.0
