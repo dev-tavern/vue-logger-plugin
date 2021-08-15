@@ -1,5 +1,9 @@
 # vue-logger-plugin changelog
 
+## [2.1.3] - 2021-08-15
+
+* Bump path-parse from 1.0.6 to 1.0.7
+
 ## [2.1.2] - 2021-05-30
 
 * Bump ws from 7.3.1 to 7.4.6
@@ -47,6 +51,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[2.1.3]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.0.0...v2.1.0
