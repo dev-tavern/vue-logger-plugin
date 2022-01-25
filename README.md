@@ -85,6 +85,8 @@ _(from left to right: least inclusive to most inclusive)_
 
 Specify an appropriate level to limit the amount of information logged.  For example, using the 'warn' level will log the 'log', 'error', and 'warn' events but not the 'info' or 'debug' events.
 
+> Note: Depending on your browser, the debug level may be labeled as "Verbose" instead of "Debug".  Ensure this level is enabled if looking for debug logs in the browser console.  Chrome uses verbose for these logs, see docs [here](https://developer.chrome.com/docs/devtools/console/log/#browser).
+
 **enabled vs consoleEnabled**
 
 Setting `enabled` to false will disable all logger functionality (console output + hook invocations).
