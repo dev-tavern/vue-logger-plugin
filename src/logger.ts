@@ -1,5 +1,5 @@
 import { App, inject } from 'vue'
-import { LoggerOptions, LoggerHook, LogEvent } from './types'
+import { LoggerOptions, LoggerHook, LogEvent, CallerInfo } from './types'
 
 const LoggerSymbol = Symbol('vue-logger-plugin')
 
@@ -8,7 +8,13 @@ const levels: string[] = ['debug', 'info', 'warn', 'error', 'log']
 const defaultOptions: LoggerOptions = {
   enabled: true,
   consoleEnabled: true,
-  level: 'debug'
+  level: 'debug',
+  callerInfo: false,
+  prefixFormat: ({ level, caller }) => {
+    return caller 
+      ? `${level} | ${caller.fileName}::${caller.functionName} | `
+      : `${level} | `
+  }
 }
 
 export class VueLogger {
@@ -50,16 +56,20 @@ export class VueLogger {
 
   private _invoke (level: string, ...args: any) {
     if (this._options.enabled && levels.indexOf(level) >= levels.indexOf(this._options.level)) {
-      this.invokeHooks(this._options.beforeHooks, level, args)
-      const msgPrefix = `${level} | `
+      const caller: CallerInfo = this._options.callerInfo ? this.getCallerInfo() : undefined
+      const event: LogEvent = { level, caller, argumentArray: args }
+      this.invokeHooks(this._options.beforeHooks, event)
+
       if (this._options.consoleEnabled) {
+        const msgPrefix = this._options.prefixFormat({ level, caller })
         if (this._consoleFunctions.indexOf(level) >= 0) {
           console[level](msgPrefix, ...args)
         } else {
           console.log(msgPrefix, ...args)
         }
       }
-      this.invokeHooks(this._options.afterHooks, level, args)
+
+      this.invokeHooks(this._options.afterHooks, event)
     }
   }
 
@@ -77,9 +87,8 @@ export class VueLogger {
     }
   }
 
-  private invokeHooks (hooks: LoggerHook[], level: string, argumentArray: any) {
+  private invokeHooks (hooks: LoggerHook[], event: LogEvent) {
     if (hooks && hooks.length > 0) {
-      const event: LogEvent = { level, argumentArray }
       hooks.forEach(hook => {
         try {
           hook.run(event)
@@ -88,6 +97,20 @@ export class VueLogger {
         }
       })
     }
+  }
+
+  private getCallerInfo (): CallerInfo {
+    const e = new Error()
+    if (e.stack) {
+      const callerFrame = e.stack.split('\n')[4].trim();
+      const functionName = callerFrame.substring(callerFrame.indexOf('at ')+3, callerFrame.lastIndexOf(' ')).split('.').reverse()[0]
+      const callerLocation = callerFrame.substring(callerFrame.indexOf('(')+1, callerFrame.lastIndexOf(')'))
+      const callerLocationParts = callerLocation.split(':').reverse() // 0=columnNumber; 1=lineNumber; 2=file
+      const fileName = callerLocationParts[2].substring(Math.max(callerLocationParts[2].lastIndexOf('/'), callerLocationParts[2].lastIndexOf('\\')) +1).split('?')[0]
+      const lineNumber = callerLocationParts[1]
+      return { functionName, fileName, lineNumber }
+    }
+    return undefined
   }
 
   get enabled () {

@@ -119,6 +119,16 @@ export interface LoggerOptions {
    */
   level?: string
   /**
+   * @field callerInfo {boolean} whether information about the caller function should be included
+   * @see {@link CallerInfo}
+   */
+  callerInfo?: boolean
+  /**
+   * @field provide a custom formatted string for the log message prefix (preceeds the log arguments)
+   * @param event {@link LogEvent}
+   */
+  prefixFormat? (event: Readonly<Pick<LogEvent, 'level' | 'caller'>>): string
+  /**
    * @field beforeHooks {LoggerHook[]} hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
    */
   beforeHooks?: LoggerHook[]
@@ -136,6 +146,7 @@ export interface LoggerOptions {
  *  run (event: LogEvent) {
  *    // event.level is the log level invoked (e.g. debug, info, warn, error)
  *    // event.argumentArray is the array of arguments which were passed to the logging method
+ *    // event.caller contains the caller function information (e.g. function name, file name, line number), if LoggerOptions.callerInfo is true
  *  }
  * }
  */
@@ -146,9 +157,21 @@ export interface LoggerHook {
 }
 
 /**
- * Contains information for a log invocation (log level, array of arguments).
+ * Contains information for a log invocation (log level, array of arguments, caller function info).
+ * @interface
  */
 export interface LogEvent {
   level: string
   argumentArray: any[]
+  caller?: CallerInfo
+}
+
+/**
+ * Information about the caller function which invoked the logger.
+ * @interface
+ */
+export interface CallerInfo {
+  fileName?: string
+  functionName?: string
+  lineNumber?: string
 }

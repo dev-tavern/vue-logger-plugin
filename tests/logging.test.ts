@@ -169,3 +169,49 @@ describe('logging: console disabled', () => {
   })
 
 })
+
+describe('logging: prefix format', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('uses custom format when provided', () => {
+    console.debug = jest.fn()
+    const logger = createLogger({ prefixFormat: ({ level }) => `[${level.toUpperCase()}]` })
+    logger.debug('test')
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
+  })
+
+})
+
+describe('logging: caller info', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
+  function doLog(logger) {
+    logger.debug('test')
+  }
+
+  it('logs caller info', () => {
+    console.debug = jest.fn()
+    const logger = createLogger({ callerInfo: true })
+    doLog(logger)
+    expect(console.debug).toHaveBeenCalledWith('debug | logging.test.ts::doLog | ', 'test')
+  })
+
+  it('does not log caller info when stack unavailable', () => {
+    const mockErrorStack = jest.spyOn(window.Error, 'prepareStackTrace') as any
+    mockErrorStack.mockImplementation(() => undefined)
+    const logger = createLogger({ callerInfo: true })
+    doLog(logger)
+    expect(console.debug).toHaveBeenCalledWith('debug | ', 'test')
+  })
+
+})
