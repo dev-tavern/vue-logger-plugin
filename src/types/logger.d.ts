@@ -27,6 +27,7 @@ export declare class VueLogger {
   /**
    * Applies log options to this Logger.
    * The provided options will be merged with existing options already applied.
+   *
    * @param options {LoggerOptions}
    */
   apply (options: LoggerOptions): void
@@ -34,6 +35,7 @@ export declare class VueLogger {
    * Perform debug level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug
+   *
    * @param args
    */
   debug (...args: any): Promise<void>
@@ -41,6 +43,7 @@ export declare class VueLogger {
    * Perform info level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info
+   *
    * @param args
    */
   info (...args: any): Promise<void>
@@ -48,6 +51,7 @@ export declare class VueLogger {
    * Perform warning level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info, warn
+   *
    * @param args
    */
   warn (...args: any): Promise<void>
@@ -55,6 +59,7 @@ export declare class VueLogger {
    * Perform error level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info, warn, error
+   *
    * @param args
    */
   error (...args: any): Promise<void>
@@ -62,6 +67,7 @@ export declare class VueLogger {
    * Perform generic (console.log) level logging.
    *
    * Performed if Logger.Options.level is one of: debug, info, warn, error, log
+   *
    * @param args
    */
   log (...args: any): Promise<void>
@@ -78,6 +84,7 @@ export declare class VueLogger {
 
 /**
  * Create a VueLogger instance that can be used on a Vue app.
+ *
  * @param options - {@link LoggerOptions}
  * @example
  * const logger = createLogger({
@@ -103,6 +110,7 @@ export function useLogger (): VueLogger
 
 /**
  * Options for logging functionality.
+ *
  * @interface
  */
 export interface LoggerOptions {
@@ -140,6 +148,7 @@ export interface LoggerOptions {
 
 /**
  * Provides custom logic to be executed during a logging event.
+ *
  * @interface
  * @example
  * const customHook: LoggerHook = {
@@ -158,6 +167,7 @@ export interface LoggerHook {
 
 /**
  * Contains information for a log invocation (log level, array of arguments, caller function info).
+ *
  * @interface
  */
 export interface LogEvent {
@@ -168,6 +178,7 @@ export interface LogEvent {
 
 /**
  * Information about the caller function which invoked the logger.
+ *
  * @interface
  */
 export interface CallerInfo {
