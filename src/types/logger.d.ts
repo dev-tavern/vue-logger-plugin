@@ -36,35 +36,35 @@ export declare class VueLogger {
    * Only performed if LoggerOptions.level is one of: debug
    * @param args
    */
-  debug (...args: any): void
+  debug (...args: any): Promise<void>
   /**
    * Perform info level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info
    * @param args
    */
-  info (...args: any): void
+  info (...args: any): Promise<void>
   /**
    * Perform warning level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info, warn
    * @param args
    */
-  warn (...args: any): void
+  warn (...args: any): Promise<void>
   /**
    * Perform error level logging.
    *
    * Only performed if LoggerOptions.level is one of: debug, info, warn, error
    * @param args
    */
-  error (...args: any): void
+  error (...args: any): Promise<void>
   /**
    * Perform generic (console.log) level logging.
    *
    * Performed if Logger.Options.level is one of: debug, info, warn, error, log
    * @param args
    */
-  log (...args: any): void
+  log (...args: any): Promise<void>
   /**
    * Returns whether logging is enabled.
    */
@@ -151,7 +151,7 @@ export interface LoggerOptions {
  * }
  */
 export interface LoggerHook {
-  run (event: LogEvent): void
+  run (event: LogEvent): void | Promise<void>
   install? (options: LoggerOptions): void
   props?: { [key: string]: any }
 }

@@ -34,32 +34,31 @@ export class VueLogger {
     this.installHooks(this._options.afterHooks)
   }
 
-  debug (...args: any): void {
-    this._invoke('debug', ...args)
+  async debug (...args: any): Promise<void> {
+    await this._invoke('debug', ...args)
   }
 
-  info (...args: any): void {
-    this._invoke('info', ...args)
+  async info (...args: any): Promise<void> {
+    await this._invoke('info', ...args)
   }
 
-  warn (...args: any): void {
-    this._invoke('warn', ...args)
+  async warn (...args: any): Promise<void> {
+    await this._invoke('warn', ...args)
   }
 
-  error (...args: any): void {
-    this._invoke('error', ...args)
+  async error (...args: any): Promise<void> {
+    await this._invoke('error', ...args)
   }
 
-  log (...args: any): void {
-    this._invoke('log', ...args)
+  async log (...args: any): Promise<void> {
+    await this._invoke('log', ...args)
   }
 
-  private _invoke (level: string, ...args: any) {
+  private async _invoke (level: string, ...args: any) {
     if (this._options.enabled && levels.indexOf(level) >= levels.indexOf(this._options.level)) {
       const caller: CallerInfo = this._options.callerInfo ? this.getCallerInfo() : undefined
       const event: LogEvent = { level, caller, argumentArray: args }
-      this.invokeHooks(this._options.beforeHooks, event)
-
+      await this.invokeHooks(this._options.beforeHooks, event)
       if (this._options.consoleEnabled) {
         const msgPrefix = this._options.prefixFormat({ level, caller })
         if (this._consoleFunctions.indexOf(level) >= 0) {
@@ -68,14 +67,13 @@ export class VueLogger {
           console.log(msgPrefix, ...args)
         }
       }
-
-      this.invokeHooks(this._options.afterHooks, event)
+      await this.invokeHooks(this._options.afterHooks, event)
     }
   }
 
   private installHooks (hooks: LoggerHook[]) {
     if (hooks && hooks.length > 0) {
-      hooks.forEach(hook => {
+      for (const hook of hooks) {
         if (hook.install) {
           try {
             hook.install(this._options)
@@ -83,19 +81,19 @@ export class VueLogger {
             console.warn('LoggerHook install failure', err)
           }
         }
-      })
+      }
     }
   }
 
-  private invokeHooks (hooks: LoggerHook[], event: LogEvent) {
+  private async invokeHooks (hooks: LoggerHook[], event: LogEvent) {
     if (hooks && hooks.length > 0) {
-      hooks.forEach(hook => {
+      for (const hook of hooks) {
         try {
-          hook.run(event)
+          await hook.run(event)
         } catch (err) {
           console.warn('LoggerHook run failure', err)
         }
-      })
+      }
     }
   }
 
