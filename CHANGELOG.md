@@ -1,5 +1,13 @@
 # vue-logger-plugin changelog
 
+## [2.2.0] - TBD
+
+* Add caller function information, controlled via `callerInfo` option
+* Add custom message prefix formatting, controlled via `prefixFormat` option
+* Add asynchronous support for hooks
+* Add LogLevel type
+* Replace tslint with eslint
+
 ## [2.1.4] - 2022-01-24
 
 * Bump tmpl from 1.0.4 to 1.0.5
