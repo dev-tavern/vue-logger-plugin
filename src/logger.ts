@@ -1,9 +1,9 @@
 import { App, inject } from 'vue'
-import { LoggerOptions, LoggerHook, LogEvent, CallerInfo } from './types'
+import { LoggerOptions, LoggerHook, LogEvent, CallerInfo, LogLevel } from './types'
 
 const loggerSymbol = Symbol('vue-logger-plugin')
 
-const levels: string[] = ['debug', 'info', 'warn', 'error', 'log']
+const levels: LogLevel[] = ['debug', 'info', 'warn', 'error', 'log']
 
 const defaultOptions: LoggerOptions = {
   enabled: true,
@@ -54,7 +54,7 @@ export class VueLogger {
     await this.invoke('log', ...args)
   }
 
-  private async invoke(level: string, ...args: any) {
+  private async invoke(level: LogLevel, ...args: any) {
     if (this.options.enabled && levels.indexOf(level) >= levels.indexOf(this.options.level)) {
       const caller: CallerInfo = this.options.callerInfo ? this.getCallerInfo() : undefined
       const event: LogEvent = { level, caller, argumentArray: args }

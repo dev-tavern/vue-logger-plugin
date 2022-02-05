@@ -1,5 +1,7 @@
 import { App } from 'vue'
 
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'log'
+
 /**
  * @class
  * @example
@@ -125,7 +127,7 @@ export interface LoggerOptions {
   /**
    * @field level {string} the logging level (one of: debug, info, warn, error)
    */
-  level?: string
+  level?: LogLevel
   /**
    * @field callerInfo {boolean} whether information about the caller function should be included
    * @see {@link CallerInfo}
@@ -171,7 +173,7 @@ export interface LoggerHook {
  * @interface
  */
 export interface LogEvent {
-  level: string
+  level: LogLevel
   argumentArray: any[]
   caller?: CallerInfo
 }
