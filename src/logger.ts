@@ -19,19 +19,19 @@ const defaultOptions: LoggerOptions = {
 
 export class VueLogger {
 
-  private options: LoggerOptions
-  private consoleFunctions: string[]
+  private _options: LoggerOptions
+  private _consoleFunctions: string[]
 
   constructor(options: LoggerOptions) {
     this.apply(options)
-    this.consoleFunctions = levels.filter(lvl => typeof console[lvl] === 'function')
+    this._consoleFunctions = levels.filter(lvl => typeof console[lvl] === 'function')
   }
 
   apply(options: LoggerOptions) {
-    const fallback = this.options || defaultOptions
-    this.options = { ...fallback, ...options }
-    this.installHooks(this.options.beforeHooks)
-    this.installHooks(this.options.afterHooks)
+    const fallback = this._options || defaultOptions
+    this._options = { ...fallback, ...options }
+    this.installHooks(this._options.beforeHooks)
+    this.installHooks(this._options.afterHooks)
   }
 
   async debug(...args: any): Promise<void> {
@@ -55,19 +55,19 @@ export class VueLogger {
   }
 
   private async invoke(level: LogLevel, ...args: any) {
-    if (this.options.enabled && levels.indexOf(level) >= levels.indexOf(this.options.level)) {
-      const caller: CallerInfo = this.options.callerInfo ? this.getCallerInfo() : undefined
+    if (this._options.enabled && levels.indexOf(level) >= levels.indexOf(this._options.level)) {
+      const caller: CallerInfo = this._options.callerInfo ? this.getCallerInfo() : undefined
       const event: LogEvent = { level, caller, argumentArray: args }
-      await this.invokeHooks(this.options.beforeHooks, event)
-      if (this.options.consoleEnabled) {
-        const msgPrefix = this.options.prefixFormat({ level, caller })
-        if (this.consoleFunctions.indexOf(level) >= 0) {
+      await this.invokeHooks(this._options.beforeHooks, event)
+      if (this._options.consoleEnabled) {
+        const msgPrefix = this._options.prefixFormat({ level, caller })
+        if (this._consoleFunctions.indexOf(level) >= 0) {
           console[level](msgPrefix, ...args)
         } else {
           console.log(msgPrefix, ...args)
         }
       }
-      await this.invokeHooks(this.options.afterHooks, event)
+      await this.invokeHooks(this._options.afterHooks, event)
     }
   }
 
@@ -76,7 +76,7 @@ export class VueLogger {
       for (const hook of hooks) {
         if (hook.install) {
           try {
-            hook.install(this.options)
+            hook.install(this._options)
           } catch (err) {
             console.warn('LoggerHook install failure', err)
           }
@@ -112,11 +112,11 @@ export class VueLogger {
   }
 
   get enabled() {
-    return this.options.enabled
+    return this._options.enabled
   }
 
   get level() {
-    return this.options.level
+    return this._options.level
   }
 
   install(app: App) {
