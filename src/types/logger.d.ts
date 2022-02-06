@@ -80,7 +80,7 @@ export declare class VueLogger {
   /**
    * Returns the currently applied logging level (one of: debug, info, warn, error, log).
    */
-  level (): string
+  level (): LogLevel
   install (app: App): void
 }
 
