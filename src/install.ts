@@ -2,7 +2,7 @@ import { VueConstructor } from 'vue'
 import VueLogger from './index'
 import { LoggerOptions } from './types'
 
-export function install (Vue: VueConstructor, options: LoggerOptions = {}) {
+export function install(Vue: VueConstructor, options: LoggerOptions = {}) {
   let Logger: VueLogger
   if (this instanceof VueLogger) {
     Logger = (this as VueLogger)
