@@ -7,6 +7,7 @@ export {
   LoggerOptions,
   LoggerHook,
   LogEvent,
+  LogLevel,
   CallerInfo
 } from './logger'
 

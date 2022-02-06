@@ -1,7 +1,7 @@
 import { install } from './install'
-import { LoggerOptions, LoggerHook, LogEvent, CallerInfo } from './types'
+import { LoggerOptions, LoggerHook, LogEvent, CallerInfo, LogLevel } from './types'
 
-const levels: string[] = ['debug', 'info', 'warn', 'error', 'log']
+const levels: LogLevel[] = ['debug', 'info', 'warn', 'error', 'log']
 
 const defaultOptions: LoggerOptions = {
   enabled: true,
@@ -54,7 +54,7 @@ export default class VueLogger {
     this._invoke('log', ...args)
   }
 
-  private _invoke(level: string, ...args: any) {
+  private _invoke(level: LogLevel, ...args: any) {
     if (this._options.enabled && levels.indexOf(level) >= levels.indexOf(this._options.level)) {
       const caller: CallerInfo = this._options.callerInfo ? this.getCallerInfo() : undefined
       const event: LogEvent = { level, caller, argumentArray: args }

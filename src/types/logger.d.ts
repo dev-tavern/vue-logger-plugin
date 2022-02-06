@@ -1,5 +1,7 @@
 import { PluginFunction } from 'vue'
 
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'log'
+
 /**
  * @class
  * @example
@@ -77,7 +79,7 @@ export declare class VueLogger {
   /**
    * Returns the currently applied logging level (one of: debug, info, warn, error, log).
    */
-  level (): string
+  level (): LogLevel
   install: PluginFunction<LoggerOptions>
   static install: PluginFunction<LoggerOptions>
 }
@@ -98,7 +100,7 @@ export interface LoggerOptions {
   /**
    * @field level {string} the logging level (one of: debug, info, warn, error)
    */
-  level?: string
+  level?: LogLevel
   /**
    * @field callerInfo {boolean} whether information about the caller function should be included
    * @see {@link CallerInfo}
@@ -144,7 +146,7 @@ export interface LoggerHook {
  * @interface
  */
 export interface LogEvent {
-  level: string
+  level: LogLevel
   argumentArray: any[]
   caller?: CallerInfo
 }
