@@ -1,11 +1,12 @@
 import { StringifyAndParseObjectsHook, StringifyObjectsHook } from '../src'
+import { LogEvent } from '../src/types'
 
 const testObject = { name: 'testObject' }
 
 describe('hooks: StringifyObjectsHook', () => {
 
   it('stringifies object', () => {
-    const event = {
+    const event: LogEvent = {
       level: 'info',
       argumentArray: [testObject]
     }
@@ -14,7 +15,7 @@ describe('hooks: StringifyObjectsHook', () => {
   })
 
   it('skips non-object', () => {
-    const event = {
+    const event: LogEvent = {
       level: 'info',
       argumentArray: ['test']
     }
@@ -27,7 +28,7 @@ describe('hooks: StringifyObjectsHook', () => {
 describe('hooks: StringifyAndParseObjectsHook', () => {
 
   it('stringifies and parses', () => {
-    const event = {
+    const event: LogEvent = {
       level: 'info',
       argumentArray: [testObject]
     }
@@ -40,7 +41,7 @@ describe('hooks: StringifyAndParseObjectsHook', () => {
   })
 
   it('skips non-object', () => {
-    const event = {
+    const event: LogEvent = {
       level: 'info',
       argumentArray: ['test']
     }
