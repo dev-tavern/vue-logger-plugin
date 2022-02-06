@@ -20,7 +20,7 @@
   "scripts": {
     "build": "tsc && cp -R src/types ./dist/",
     "test": "jest --coverage --config jestconfig.json",
-    "lint": "eslint .'",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "npm run build",
     "prepublishOnly": "npm run test && npm run lint",
