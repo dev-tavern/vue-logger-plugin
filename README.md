@@ -120,11 +120,11 @@ The value of this option must be a function which accepts a partial LogEvent obj
 
 The default for this option is:
 ```typescript
-prefixFormat: ({ level, caller }) => {
-  return caller
-    ? `${level} | ${caller.fileName}::${caller.functionName} | `
-    : `${level} | `
-}
+prefixFormat: ({ level, caller }) => (
+  caller
+    ? `[${level.toUpperCase()}] [${caller?.fileName}:${caller?.functionName}:${caller?.lineNumber}]`
+    : `[${level.toUpperCase()}]`
+)
 ```
 
 ## Hooks
