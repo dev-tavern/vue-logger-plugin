@@ -1,6 +1,8 @@
 import { App, inject } from 'vue'
 import { LoggerOptions, LoggerHook, LogEvent, CallerInfo, LogLevel } from './types'
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 const loggerSymbol = Symbol('vue-logger-plugin')
 
 const levels: LogLevel[] = ['debug', 'info', 'warn', 'error', 'log']
@@ -100,13 +102,27 @@ export class VueLogger {
   private getCallerInfo(): CallerInfo {
     const e = new Error()
     if (e.stack) {
-      const callerFrame = e.stack.split('\n')[4].trim()
-      const functionName = callerFrame.substring(callerFrame.indexOf('at ')+3, callerFrame.lastIndexOf(' ')).split('.').reverse()[0]
-      const callerLocation = callerFrame.substring(callerFrame.indexOf('(')+1, callerFrame.lastIndexOf(')'))
-      const callerLocationParts = callerLocation.split(':').reverse() // 0=columnNumber; 1=lineNumber; 2=file
-      const fileName = callerLocationParts[2].substring(Math.max(callerLocationParts[2].lastIndexOf('/'), callerLocationParts[2].lastIndexOf('\\')) +1).split('?')[0]
-      const lineNumber = callerLocationParts[1]
-      return { functionName, fileName, lineNumber }
+      try {
+        // Chrome / Edge:  caller function located at stack frame index 4, in format like: at <functionName> (<filePath/fileName>:<lineNumber>:<columnNumber>)
+        // Firefox:  caller function located at stack frame index 3, in format like: <functionName>@<filePath/fileName>:<lineNumber>:<columnNumber>
+        const frames = e.stack.split('\n')
+        const callerFrameIndex = frames[0].startsWith('Error') ? 4 : 3
+        const callerFrame = e.stack.split('\n')[callerFrameIndex].trim().replaceAll('(', '').replaceAll(')', '')
+        let functionName
+        if (callerFrame.indexOf('at ') > -1) {
+          functionName = callerFrame.substring(callerFrame.indexOf('at ')+3, callerFrame.lastIndexOf(' ')).split('.').reverse()[0]
+        } else if (callerFrame.indexOf('@') > -1) {
+          functionName = callerFrame.substring(0, callerFrame.indexOf('@'))
+        }
+        const callerLocationParts = callerFrame.split(':').reverse() // 0=columnNumber; 1=lineNumber; 2=file
+        const fileName = callerLocationParts[2].substring(Math.max(callerLocationParts[2].lastIndexOf('/'), callerLocationParts[2].lastIndexOf('\\')) +1).split('?')[0]
+        const lineNumber = callerLocationParts[1]
+        return { functionName, fileName, lineNumber }
+      } catch (err) {
+        if (!isProduction) {
+          console.debug('vue-logger-plugin :: failed to determine caller function info')
+        }
+      }
     }
     return undefined
   }
@@ -133,7 +149,7 @@ export function createLogger(options: LoggerOptions = {}) {
 
 export function useLogger() {
   const logger = inject(loggerSymbol)
-  if (!logger) {
+  if (!logger && !isProduction) {
     console.warn('vue-logger-plugin :: useLogger missing inject')
   }
   return logger
