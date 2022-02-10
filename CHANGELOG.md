@@ -1,6 +1,6 @@
 # vue-logger-plugin changelog
 
-## [1.2.1] - TBD
+## [1.2.1] - 2022-02-09
 
 * Add caller function information support for Firefox browser
 * Update default value for prefixFormat option
@@ -46,6 +46,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[1.2.1]:  https://github.com/dev-tavern/vue-logger-plugin/compare/v1.2.0...v1.2.1
 [1.2.0]:  https://github.com/dev-tavern/vue-logger-plugin/compare/v1.1.3...v1.2.0
 [1.1.3]:  https://github.com/dev-tavern/vue-logger-plugin/compare/v1.1.2...v1.1.3
 [1.1.2]:  https://github.com/dev-tavern/vue-logger-plugin/compare/v1.1.1...v1.1.2
