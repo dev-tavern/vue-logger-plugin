@@ -16,7 +16,7 @@ const defaultOptions: LoggerOptions = {
     caller
       ? `[${level.toUpperCase()}] [${caller?.fileName}:${caller?.functionName}:${caller?.lineNumber}]`
       : `[${level.toUpperCase()}]`
-  ),
+  )
 }
 
 export class VueLogger {
