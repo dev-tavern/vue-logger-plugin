@@ -107,7 +107,7 @@ export class VueLogger {
         // Firefox:  caller function located at stack frame index 3, in format like: <functionName>@<filePath/fileName>:<lineNumber>:<columnNumber>
         const frames = e.stack.split('\n')
         const callerFrameIndex = frames[0].startsWith('Error') ? 4 : 3
-        const callerFrame = e.stack.split('\n')[callerFrameIndex].trim().replaceAll('(', '').replaceAll(')', '')
+        const callerFrame = e.stack.split('\n')[callerFrameIndex].trim().replace('(', '').replace(')', '')
         let functionName
         if (callerFrame.indexOf('at ') > -1) {
           functionName = callerFrame.substring(callerFrame.indexOf('at ')+3, callerFrame.lastIndexOf(' ')).split('.').reverse()[0]
