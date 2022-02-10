@@ -12,11 +12,11 @@ const defaultOptions: LoggerOptions = {
   consoleEnabled: true,
   level: 'debug',
   callerInfo: false,
-  prefixFormat: ({ level, caller }) => {
-    return caller
-      ? `${level} | ${caller.fileName}::${caller.functionName} | `
-      : `${level} | `
-  }
+  prefixFormat: ({ level, caller }) => (
+    caller
+      ? `[${level.toUpperCase()}] [${caller?.fileName}:${caller?.functionName}:${caller?.lineNumber}]`
+      : `[${level.toUpperCase()}]`
+  ),
 }
 
 export class VueLogger {
