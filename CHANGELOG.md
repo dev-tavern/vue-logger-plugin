@@ -1,6 +1,11 @@
 # vue-logger-plugin changelog
 
-## [2.2.0] - TBD
+## [2.2.1] - TBD
+
+* Add caller function information support for Firefox browser
+* Update default value for prefixFormat option
+
+## [2.2.0] - 2022-02-05
 
 * Add caller function information, controlled via `callerInfo` option
 * Add custom message prefix formatting, controlled via `prefixFormat` option
