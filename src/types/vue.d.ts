@@ -1,4 +1,3 @@
-
 /**
  * Vue module augmentation
  */
