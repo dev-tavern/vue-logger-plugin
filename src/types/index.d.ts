@@ -6,7 +6,9 @@ export default VueLogger
 export {
   LoggerOptions,
   LoggerHook,
-  LogEvent
+  LogEvent,
+  LogLevel,
+  CallerInfo
 } from './logger'
 
 export * from './hooks'

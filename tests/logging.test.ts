@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueLogger from '../src'
 
-// const VueE = Vue.extend()
-// VueE.use(VueLogger)
-
 describe('logging: levels', () => {
 
   const VueE = Vue.extend()
@@ -19,40 +16,40 @@ describe('logging: levels', () => {
     console.debug = jest.fn()
     VueE.prototype.$log.debug('test')
     VueE.prototype.$log.debug('test', testObject)
-    expect(console.debug).toHaveBeenCalledWith('debug | ', 'test')
-    expect(console.debug).toHaveBeenCalledWith('debug | ', 'test', testObject)
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test', testObject)
   })
 
   it('info logs to console.info', () => {
     console.info = jest.fn()
     VueE.prototype.$log.info('test')
     VueE.prototype.$log.info('test', testObject)
-    expect(console.info).toHaveBeenCalledWith('info | ', 'test')
-    expect(console.info).toHaveBeenCalledWith('info | ', 'test', testObject)
+    expect(console.info).toHaveBeenCalledWith('[INFO]', 'test')
+    expect(console.info).toHaveBeenCalledWith('[INFO]', 'test', testObject)
   })
 
   it('warn logs to console.warn', () => {
     console.warn = jest.fn()
     VueE.prototype.$log.warn('test')
     VueE.prototype.$log.warn('test', testObject)
-    expect(console.warn).toHaveBeenCalledWith('warn | ', 'test')
-    expect(console.warn).toHaveBeenCalledWith('warn | ', 'test', testObject)
+    expect(console.warn).toHaveBeenCalledWith('[WARN]', 'test')
+    expect(console.warn).toHaveBeenCalledWith('[WARN]', 'test', testObject)
   })
 
   it('error logs to console.error', () => {
     console.error = jest.fn()
     VueE.prototype.$log.error('test')
     VueE.prototype.$log.error('test', testObject)
-    expect(console.error).toHaveBeenCalledWith('error | ', 'test')
-    expect(console.error).toHaveBeenCalledWith('error | ', 'test', testObject)
+    expect(console.error).toHaveBeenCalledWith('[ERROR]', 'test')
+    expect(console.error).toHaveBeenCalledWith('[ERROR]', 'test', testObject)
   })
 
   it('log logs to console.log', () => {
     console.log = jest.fn()
     VueE.prototype.$log.log('test')
     VueE.prototype.$log.log('test', testObject)
-    expect(console.log).toHaveBeenCalledWith('log | ', 'test')
-    expect(console.log).toHaveBeenCalledWith('log | ', 'test', testObject)
+    expect(console.log).toHaveBeenCalledWith('[LOG]', 'test')
+    expect(console.log).toHaveBeenCalledWith('[LOG]', 'test', testObject)
   })
 
 })
@@ -68,7 +65,7 @@ describe('logging: unsupported', () => {
     console.log = jest.fn()
     const logger = new VueLogger({})
     logger.warn('test')
-    expect(console.log).toHaveBeenCalledWith('warn | ', 'test')
+    expect(console.log).toHaveBeenCalledWith('[WARN]', 'test')
   })
 
 })
@@ -169,6 +166,52 @@ describe('logging: console disabled', () => {
     const logger = new VueLogger({ consoleEnabled: false, beforeHooks: [hook] })
     logger.log('test')
     expect(hook.run).toHaveBeenCalled()
+  })
+
+})
+
+describe('logging: prefix format', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it('uses custom format when provided', () => {
+    console.debug = jest.fn()
+    const logger = new VueLogger({ prefixFormat: ({ level }) => `[${level.toUpperCase()}]` })
+    logger.debug('test')
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
+  })
+
+})
+
+describe('logging: caller info', () => {
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
+  function doLog(logger) {
+    logger.debug('test')
+  }
+
+  it('logs caller info', () => {
+    console.debug = jest.fn()
+    const logger = new VueLogger({ callerInfo: true })
+    doLog(logger)
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG] [logging.test.ts:doLog:199]', 'test')
+  })
+
+  it('does not log caller info when stack unavailable', () => {
+    const mockErrorStack = jest.spyOn(window.Error, 'prepareStackTrace') as any
+    mockErrorStack.mockImplementation(() => undefined)
+    const logger = new VueLogger({ callerInfo: true })
+    doLog(logger)
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
   })
 
 })

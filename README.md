@@ -67,17 +67,19 @@ Vue.use(logger)
 
 More information about hooks can be found in the [Hooks](#Hooks) section.
 
-### Options
+## Options
 
 **Name**|**Type**|**Default**|**Description**
 :-----|:-----|:-----|:-----
 enabled | boolean | true | enable/disable logger
 consoleEnabled | boolean | true | enable/disable console output
 level | string | 'debug' | the logging level (one of: debug, info, warn, error, log)
+callerInfo | boolean | false | whether information about the caller function should be included
+prefixFormat | string | *(see [below](#prefixFormat))* | provide a custom formatted string for the log message prefix (preceeds the log arguments)
 beforeHooks | LoggerHook[] | [] | hooks invoked before a statement is logged, can be used to alter log arguments (use carefully)
 afterHooks | LoggerHook[] | [] | hooks invoked after a statement is logged
 
-**Levels**
+### **Levels**
 
 log <-- error <-- warn <-- info <-- debug
 
@@ -87,7 +89,7 @@ Specify an appropriate level to limit the amount of information logged.  For exa
 
 > Note: Depending on your browser, the debug level may be labeled as "Verbose" instead of "Debug".  Ensure this level is enabled if looking for debug logs in the browser console.  Chrome uses verbose for these logs, see docs [here](https://developer.chrome.com/docs/devtools/console/log/#browser).
 
-**enabled vs consoleEnabled**
+### **enabled vs consoleEnabled**
 
 Setting `enabled` to false will disable all logger functionality (console output + hook invocations).
 
@@ -95,17 +97,37 @@ Setting `consoleEnabled` to false will disable just the console output but will 
 
 So, for example, if you want to prevent writing logs to the browser console but still invoke a hook (i.e. to send logs to a server) then you would set `enabled: true` and `consoleEnabled: false`.
 
-### Hooks
+### **callerInfo**
+
+Setting `callerInfo` to true will result in caller function information (fileName, functionName, lineNumber) being determined and included in the log, as well as being included in events provided to hooks, for each log function invocation.
+
+### **prefixFormat**
+
+Use the `prefixFormat` option to customize the message prefix (portion of log statement that appears before the arguments provided to the log function).
+This can as well be used to inject additional information into the message prefix, such as timestamps or user identifiers for example.
+
+The value of this option must be a function which accepts a partial LogEvent object and returns a string.  The provided LogEvent object contains only log `level` and `caller` information.
+
+The default for this option is:
+```typescript
+prefixFormat: ({ level, caller }) => (
+    caller
+      ? `[${level.toUpperCase()}] [${caller?.fileName}:${caller?.functionName}:${caller?.lineNumber}]`
+      : `[${level.toUpperCase()}]`
+  )
+```
+
+## Hooks
 
 Hooks allow for advanced customization of the logger implementation, providing operations to be run before and after logging is performed.  These are defined on options as ```beforeHooks``` and ```afterHooks```.
 
-##### beforeHooks
+### beforeHooks
 Invoked before a statement is logged, can alter the log arguments which can impact the log output.
 
-##### afterHooks
+### afterHooks
 Invoked after a statement is logged, cannot impact the log output.
 
-#### Built-in Hooks
+### Built-in Hooks
 The following hooks are available in this package and can be used by simply importing and adding them to the beforeHooks and/or afterHooks arrays of your options.
 
 **`StringifyObjectsHook`**
@@ -114,9 +136,7 @@ Applies JSON.stringify on all objects provided as arguments to a logging method.
 import { StringifyObjectsHook } from 'vue-logger-plugin'
 const options = {
   // ... (other options)
-  beforeHooks: [
-    StringifyObjectsHook
-  ]
+  beforeHooks: [ StringifyObjectsHook ]
 }
 ```
 **`StringifyAndParseObjectsHook`**
@@ -125,15 +145,13 @@ Applies JSON.stringify and JSON.parse on all objects provided as arguments to a 
 import { StringifyAndParseObjectsHook } from 'vue-logger-plugin'
 const options = {
   // ... (other options)
-  beforeHooks: [
-    StringifyAndParseObjectsHook
-  ]
+  beforeHooks: [ StringifyAndParseObjectsHook ]
 }
 ```
 
 The above are best used as 'before hooks' as they may purposefully alter the log output.  This way you are sure you are seeing the value of an object at the moment you log it. Otherwise, many browsers provide a live view that constantly updates as values change.
 
-#### Write Your Own Hooks
+### Write Your Own Hooks
 
 You can easily write your own hooks to apply custom logic.  A hook must implement a ```run``` function to handle a log event (an object containing the log level and the array of arguments which were passed to the logging method), and may optionally implement an ```install``` function which is invoked during plugin installation (or at the time of logger options application - see [Usage](#usage) section).
 
@@ -145,50 +163,34 @@ export interface LoggerHook {
   props?: { [key: string]: any }
 }
 export interface LogEvent {
-  level: string
+  level: LogLevel // 'debug' | 'info' | 'warn' | 'error' | 'log'
   argumentArray: any[]
+  caller?: CallerInfo
+}
+export interface CallerInfo {
+  fileName?: string
+  functionName?: string
+  lineNumber?: string
 }
 ```
 
-##### Sample Custom Hook - Leveraging Axios to Send Logs to Server
+#### Sample Custom Hook - Leveraging Axios to Send Logs to Server
 This is a basic example demonstrating how you could have the logger send log data to a server using an Axios client.
 
-**`logger/index.js`**
-```js
-import VueLogger from 'vue-logger-plugin'
-import axios from 'axios'
-
-const ServerLogHook = {
-  run (event) {
-    axios.post('/log', { severity: event.level, data: event.argumentArray })
-  }
-}
-
-const options = {
-  // ... (other options)
-  afterHooks: [
-    ServerLogHook
-  ]
-}
-
-export default new VueLogger(options)
-```
-**`logger/index.ts`** (TypeScript example, same functionality as above)
+**`logger/index.ts`**
 ```ts
 import VueLogger, { LoggerOptions, LoggerHook, LogEvent } from 'vue-logger-plugin'
 import axios from 'axios'
 
 const ServerLogHook: LoggerHook = {
-  run (event: LogEvent) {
+  run(event: LogEvent) {
     axios.post('/log', { severity: event.level, data: event.argumentArray })
   }
 }
 
 const options: LoggerOptions = {
   // ... (other options)
-  afterHooks: [
-    ServerLogHook
-  ]
+  afterHooks: [ ServerLogHook ]
 }
 
 export default new VueLogger(options)
