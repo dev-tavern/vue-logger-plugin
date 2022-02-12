@@ -1,5 +1,18 @@
 # vue-logger-plugin changelog
 
+## [2.2.1] - 2022-02-09
+
+* Add caller function information support for Firefox browser
+* Update default value for prefixFormat option
+
+## [2.2.0] - 2022-02-05
+
+* Add caller function information, controlled via `callerInfo` option
+* Add custom message prefix formatting, controlled via `prefixFormat` option
+* Add asynchronous support for hooks
+* Add LogLevel type
+* Replace tslint with eslint
+
 ## [2.1.4] - 2022-01-24
 
 * Bump tmpl from 1.0.4 to 1.0.5
@@ -57,6 +70,8 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[2.2.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.4...v2.2.0
 [2.1.4]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.1...v2.1.2

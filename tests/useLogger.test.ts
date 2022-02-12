@@ -29,4 +29,5 @@ describe('useLogger', () => {
     useLogger()
     expect(console.warn).toHaveBeenCalledWith('vue-logger-plugin :: useLogger missing inject')
   })
+
 })
