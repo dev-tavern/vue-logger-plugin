@@ -56,8 +56,8 @@ export class VueLogger {
 
   error(...args: any): void {
     this.invoke('error', ...args)
-    .then(() => {/*intentinonal empty*/})
-    .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentinonal empty*/})
+      .catch(() => {/*intentinonal empty*/})
   }
 
   log(...args: any): void {
