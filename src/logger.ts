@@ -38,32 +38,32 @@ export class VueLogger {
 
   debug(...args: any): void {
     this.invoke('debug', ...args)
-      .then(() => {/*intentinonal empty*/})
-      .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   info(...args: any): void {
     this.invoke('info', ...args)
-      .then(() => {/*intentinonal empty*/})
-      .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   warn(...args: any): void {
     this.invoke('warn', ...args)
-      .then(() => {/*intentinonal empty*/})
-      .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   error(...args: any): void {
     this.invoke('error', ...args)
-      .then(() => {/*intentinonal empty*/})
-      .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   log(...args: any): void {
     this.invoke('log', ...args)
-      .then(() => {/*intentinonal empty*/})
-      .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   private async invoke(level: LogLevel, ...args: any) {
