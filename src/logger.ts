@@ -36,24 +36,34 @@ export class VueLogger {
     this.installHooks(this._options.afterHooks)
   }
 
-  async debug(...args: any): Promise<void> {
-    await this.invoke('debug', ...args)
+  debug(...args: any): void {
+    this.invoke('debug', ...args)
+    .then(() => {/*intentinonal empty*/})
+    .catch(() => {/*intentinonal empty*/})
   }
 
-  async info(...args: any): Promise<void> {
-    await this.invoke('info', ...args)
+  info(...args: any): void {
+    this.invoke('info', ...args)
+    .then(() => {/*intentinonal empty*/})
+    .catch(() => {/*intentinonal empty*/})
   }
 
-  async warn(...args: any): Promise<void> {
-    await this.invoke('warn', ...args)
+  warn(...args: any): void {
+    this.invoke('warn', ...args)
+    .then(() => {/*intentinonal empty*/})
+    .catch(() => {/*intentinonal empty*/})
   }
 
-  async error(...args: any): Promise<void> {
-    await this.invoke('error', ...args)
+  error(...args: any): void {
+    this.invoke('error', ...args)
+    .then(() => {/*intentinonal empty*/})
+    .catch(() => {/*intentinonal empty*/})
   }
 
-  async log(...args: any): Promise<void> {
-    await this.invoke('log', ...args)
+  log(...args: any): void {
+    this.invoke('log', ...args)
+    .then(() => {/*intentinonal empty*/})
+    .catch(() => {/*intentinonal empty*/})
   }
 
   private async invoke(level: LogLevel, ...args: any) {

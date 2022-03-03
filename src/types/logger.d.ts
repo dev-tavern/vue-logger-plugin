@@ -40,7 +40,7 @@ export declare class VueLogger {
    *
    * @param args
    */
-  debug (...args: any): Promise<void>
+  debug (...args: any): void
   /**
    * Perform info level logging.
    *
@@ -48,7 +48,7 @@ export declare class VueLogger {
    *
    * @param args
    */
-  info (...args: any): Promise<void>
+  info (...args: any): void
   /**
    * Perform warning level logging.
    *
@@ -56,7 +56,7 @@ export declare class VueLogger {
    *
    * @param args
    */
-  warn (...args: any): Promise<void>
+  warn (...args: any): void
   /**
    * Perform error level logging.
    *
@@ -64,7 +64,7 @@ export declare class VueLogger {
    *
    * @param args
    */
-  error (...args: any): Promise<void>
+  error (...args: any): void
   /**
    * Perform generic (console.log) level logging.
    *
@@ -72,7 +72,7 @@ export declare class VueLogger {
    *
    * @param args
    */
-  log (...args: any): Promise<void>
+  log (...args: any): void
   /**
    * Returns whether logging is enabled.
    */
