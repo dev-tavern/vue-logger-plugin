@@ -38,20 +38,20 @@ export class VueLogger {
 
   debug(...args: any): void {
     this.invoke('debug', ...args)
-    .then(() => {/*intentinonal empty*/})
-    .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentinonal empty*/})
+      .catch(() => {/*intentinonal empty*/})
   }
 
   info(...args: any): void {
     this.invoke('info', ...args)
-    .then(() => {/*intentinonal empty*/})
-    .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentinonal empty*/})
+      .catch(() => {/*intentinonal empty*/})
   }
 
   warn(...args: any): void {
     this.invoke('warn', ...args)
-    .then(() => {/*intentinonal empty*/})
-    .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentinonal empty*/})
+      .catch(() => {/*intentinonal empty*/})
   }
 
   error(...args: any): void {
@@ -62,8 +62,8 @@ export class VueLogger {
 
   log(...args: any): void {
     this.invoke('log', ...args)
-    .then(() => {/*intentinonal empty*/})
-    .catch(() => {/*intentinonal empty*/})
+      .then(() => {/*intentinonal empty*/})
+      .catch(() => {/*intentinonal empty*/})
   }
 
   private async invoke(level: LogLevel, ...args: any) {
