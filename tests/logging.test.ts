@@ -14,40 +14,45 @@ describe('logging: levels', () => {
 
   it('debug logs to console.debug', async () => {
     console.debug = jest.fn()
-    await VueE.config.globalProperties.$log.debug('test')
-    await VueE.config.globalProperties.$log.debug('test', testObject)
+    VueE.config.globalProperties.$log.debug('test')
+    VueE.config.globalProperties.$log.debug('test', testObject)
+    await new Promise(process.nextTick)
     expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
     expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test', testObject)
   })
 
   it('info logs to console.info', async () => {
     console.info = jest.fn()
-    await VueE.config.globalProperties.$log.info('test')
-    await VueE.config.globalProperties.$log.info('test', testObject)
+    VueE.config.globalProperties.$log.info('test')
+    VueE.config.globalProperties.$log.info('test', testObject)
+    await new Promise(process.nextTick)
     expect(console.info).toHaveBeenCalledWith('[INFO]', 'test')
     expect(console.info).toHaveBeenCalledWith('[INFO]', 'test', testObject)
   })
 
   it('warn logs to console.warn', async () => {
     console.warn = jest.fn()
-    await VueE.config.globalProperties.$log.warn('test')
-    await VueE.config.globalProperties.$log.warn('test', testObject)
+    VueE.config.globalProperties.$log.warn('test')
+    VueE.config.globalProperties.$log.warn('test', testObject)
+    await new Promise(process.nextTick)
     expect(console.warn).toHaveBeenCalledWith('[WARN]', 'test')
     expect(console.warn).toHaveBeenCalledWith('[WARN]', 'test', testObject)
   })
 
   it('error logs to console.error', async () => {
     console.error = jest.fn()
-    await VueE.config.globalProperties.$log.error('test')
-    await VueE.config.globalProperties.$log.error('test', testObject)
+    VueE.config.globalProperties.$log.error('test')
+    VueE.config.globalProperties.$log.error('test', testObject)
+    await new Promise(process.nextTick)
     expect(console.error).toHaveBeenCalledWith('[ERROR]', 'test')
     expect(console.error).toHaveBeenCalledWith('[ERROR]', 'test', testObject)
   })
 
   it('log logs to console.log', async () => {
     console.log = jest.fn()
-    await VueE.config.globalProperties.$log.log('test')
-    await VueE.config.globalProperties.$log.log('test', testObject)
+    VueE.config.globalProperties.$log.log('test')
+    VueE.config.globalProperties.$log.log('test', testObject)
+    await new Promise(process.nextTick)
     expect(console.log).toHaveBeenCalledWith('[LOG]', 'test')
     expect(console.log).toHaveBeenCalledWith('[LOG]', 'test', testObject)
   })
@@ -64,7 +69,8 @@ describe('logging: unsupported', () => {
     console.warn = undefined
     console.log = jest.fn()
     const logger = createLogger()
-    await logger.warn('test')
+    logger.warn('test')
+    await new Promise(process.nextTick)
     expect(console.log).toHaveBeenCalledWith('[WARN]', 'test')
   })
 
@@ -81,7 +87,8 @@ describe('logging: hooks', () => {
       run: jest.fn()
     }
     const logger = createLogger({ beforeHooks: [hook] })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(hook.run).toHaveBeenCalledWith(
       expect.objectContaining({
         level: 'log',
@@ -95,7 +102,8 @@ describe('logging: hooks', () => {
       run: jest.fn()
     }
     const logger = createLogger({ afterHooks: [hook] })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(hook.run).toHaveBeenCalledWith(
       expect.objectContaining({
         level: 'log',
@@ -111,7 +119,8 @@ describe('logging: hooks', () => {
     }
     hook.run.mockImplementation(() => { throw Error('Test') })
     const logger = createLogger({ beforeHooks: [hook] })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(console.warn).toHaveBeenCalledWith(
       'LoggerHook run failure',
       expect.anything()
@@ -129,7 +138,8 @@ describe('logging: disabled', () => {
   it('does not write to console', async () => {
     console.log = jest.fn()
     const logger = createLogger({ enabled: false })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(console.log).not.toHaveBeenCalled()
   })
 
@@ -139,7 +149,8 @@ describe('logging: disabled', () => {
       run: jest.fn()
     }
     const logger = createLogger({ enabled: false, beforeHooks: [hook] })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(hook.run).not.toHaveBeenCalled()
   })
 
@@ -154,7 +165,8 @@ describe('logging: console disabled', () => {
   it('does not write to console', async () => {
     console.log = jest.fn()
     const logger = createLogger({ consoleEnabled: false })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(console.log).not.toHaveBeenCalled()
   })
 
@@ -164,7 +176,8 @@ describe('logging: console disabled', () => {
       run: jest.fn()
     }
     const logger = createLogger({ consoleEnabled: false, beforeHooks: [hook] })
-    await logger.log('test')
+    logger.log('test')
+    await new Promise(process.nextTick)
     expect(hook.run).toHaveBeenCalled()
   })
 
@@ -179,7 +192,8 @@ describe('logging: prefix format', () => {
   it('uses custom format when provided', async () => {
     console.debug = jest.fn()
     const logger = createLogger({ prefixFormat: ({ level }) => `[${level.toUpperCase()}]` })
-    await logger.debug('test')
+    logger.debug('test')
+    await new Promise(process.nextTick)
     expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
   })
 
@@ -195,22 +209,24 @@ describe('logging: caller info', () => {
     jest.restoreAllMocks()
   })
 
-  async function doLog(logger) {
-    await logger.debug('test')
+  function doLog(logger) {
+    logger.debug('test')
   }
 
   it('logs caller info', async () => {
     console.debug = jest.fn()
     const logger = createLogger({ callerInfo: true })
-    await doLog(logger)
-    expect(console.debug).toHaveBeenCalledWith('[DEBUG] [logging.test.ts:doLog:199]', 'test')
+    doLog(logger)
+    await new Promise(process.nextTick)
+    expect(console.debug).toHaveBeenCalledWith('[DEBUG] [logging.test.ts:doLog:213]', 'test')
   })
 
   it('does not log caller info when stack unavailable', async () => {
     const mockErrorStack = jest.spyOn(window.Error, 'prepareStackTrace') as any
     mockErrorStack.mockImplementation(() => undefined)
     const logger = createLogger({ callerInfo: true })
-    await doLog(logger)
+    doLog(logger)
+    await new Promise(process.nextTick)
     expect(console.debug).toHaveBeenCalledWith('[DEBUG]', 'test')
   })
 
