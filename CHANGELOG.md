@@ -1,5 +1,10 @@
 # vue-logger-plugin changelog
 
+## [2.2.2] - 2022-03-02
+* Update logging functions (`log`, `error`, `warn`, `info`, `debug`) to no longer return a promise.
+    * Still supports asynchronous run function in hooks
+    * Fix for [Issue 26](https://github.com/dev-tavern/vue-logger-plugin/issues/26)
+
 ## [2.2.1] - 2022-02-09
 
 * Add caller function information support for Firefox browser
@@ -70,6 +75,7 @@
     * built-in argument stringify hooks
     * on-demand log level adjustment and enable/disable via `apply`
 
+[2.2.2]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.4...v2.2.0
 [2.1.4]: https://github.com/dev-tavern/vue-logger-plugin/compare/v2.1.3...v2.1.4

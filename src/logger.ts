@@ -36,24 +36,34 @@ export class VueLogger {
     this.installHooks(this._options.afterHooks)
   }
 
-  async debug(...args: any): Promise<void> {
-    await this.invoke('debug', ...args)
+  debug(...args: any): void {
+    this.invoke('debug', ...args)
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
-  async info(...args: any): Promise<void> {
-    await this.invoke('info', ...args)
+  info(...args: any): void {
+    this.invoke('info', ...args)
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
-  async warn(...args: any): Promise<void> {
-    await this.invoke('warn', ...args)
+  warn(...args: any): void {
+    this.invoke('warn', ...args)
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
-  async error(...args: any): Promise<void> {
-    await this.invoke('error', ...args)
+  error(...args: any): void {
+    this.invoke('error', ...args)
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
-  async log(...args: any): Promise<void> {
-    await this.invoke('log', ...args)
+  log(...args: any): void {
+    this.invoke('log', ...args)
+      .then(() => {/*intentional empty*/})
+      .catch(() => {/*intentional empty*/})
   }
 
   private async invoke(level: LogLevel, ...args: any) {
