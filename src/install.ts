@@ -4,7 +4,7 @@ import { LoggerOptions } from './types'
 
 export function install(Vue: VueConstructor, options: LoggerOptions = {}) {
   let Logger: VueLogger
-  if (this instanceof VueLogger) {
+  if (VueLogger && this instanceof VueLogger) {
     Logger = (this as VueLogger)
     if (options !== {}) Logger.apply(options)
   } else {

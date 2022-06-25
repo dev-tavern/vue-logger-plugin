@@ -136,7 +136,3 @@ export default class VueLogger {
   }
 
 }
-
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(VueLogger)
-}
